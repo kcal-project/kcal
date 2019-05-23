@@ -1,12 +1,12 @@
 # kcal
 
-Authors of Project: 
+Authors of Project: kcal
 
 Adriana Graybill, Chance Harmon, Brad Smialek, Jeremy Lee
 
 Project Descripton: 
 
-<Blank Project> is a weight loss application that tailors specialized meals for the user, to assist the user in finding healthy meal choices, to support a healthy diet and achieve wieght loss. The applications will accomplish this by taking in metrics related to the user's body type and other inputs, such as targeted weight loss goals and estimated time of completion to achieve targeted weight loss results.Based on the metrics and inputs that are entered the application will provide the user with meal suggestions that are conducive to helping the end user loss weight.
+kcal is a weight loss application that tailors specialized meals for the user, to assist the user in finding healthy meal choices, to support a healthy diet and achieve wieght loss. The applications will accomplish this by taking in metrics related to the user's body type and other inputs, such as targeted weight loss goals and estimated time of completion to achieve targeted weight loss results.Based on the metrics and inputs that are entered the application will provide the user with meal suggestions that are conducive to helping the end user loss weight.
 
 Problem Domain:
 
