@@ -21,5 +21,5 @@ Problem Domain Resultions:
 
 Wireframe: 
 
-<img src="kcal/images/new-data-services-746313-unsplash.jpg">
+<img src="images/new-data-services-746313-unsplash.jpg">
 
