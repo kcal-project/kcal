@@ -23,3 +23,23 @@ Wireframe:
 
 <img src="images/new-data-services-746313-unsplash.jpg">
 
+
+Conflict Plan
+
+Disagreements – When we disagree, we will do the following:
+-    Bring it up, and actually discuss pros and cons
+-    Listen to one another, make sure to value different opinions
+-    Vote on options and move on
+
+Complaints –
+-    If there is a complaint, bring it up with a solution already in mind
+
+Communication –
+-    We will commit to communicate before we do anything on slack or text so that no issues arise
+-    We will be kind to one another and respect each other’s differences
+
+Communication
+We will communicate over slack and possibly over text if that works best, we will have set hours.
+Every person has air time and we verbally check to make sure we all are onboard.
+We are responsible adults and are respectful of another, we have experienced unsafe environments so we are committed to not let that happen again.
+
