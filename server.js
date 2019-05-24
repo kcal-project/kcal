@@ -8,9 +8,9 @@ const superagent = require('superagent'); // Not Need?  Still researching
 const unirest = require('unirest');// https request client library like superagent  -- neede for rapid api
 const pg = require('pg');
 const ejs = require('ejs');
+const methodOverride = require('method-override');
 
 const app = express();
-
 const PORT = process.env.PORT;
 
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -18,50 +18,39 @@ const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 client.on('error', err => console.log(err));
 
-app.use(express.urlencoded({extended:true}));
-app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('Public'));
 
 app.set('view engine', 'ejs');
 
 
 // Routes
 
-// app.get('/', getMealsFromDB);  
-app.get('/', formIntake);  
+// app.get('/', getMealsFromDB);
+app.get('/', formIntake);
 
-app.post('/meals', searchNewMeals);  
-
+app.post('/meals', searchNewMeals);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
-
-
-function formIntake (request, response){
+function formIntake(request, response) {
   response.render('views/intake-form');
 }
 
-
-
-function searchNewMeals(request, response){
+function searchNewMeals(request, response) {
   response.send('Ok');
   unirest.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=2000&timeFrame=day')
     .header('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .header('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
-    // .end(function (result) {
-    //   
-    // });
-    .then(apiResponse => apiResponse.body.items.map(mealResult => new Meal(mealResult)))
+    .then(apiResponse => apiResponse.body.items.map(mealResults => new Meal(mealResults)))
     .then(results => {
-      console.log(console.log('line$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', result.body);  //result.status, result.headers,);
-      response.render('', {meals: results})
+      console.log('line$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', results.body);
+      response.render('', { meals: results })
     })
 
-    .catch(err => handleError(err,response));
-
+    .catch(err => handleError(err, response));
 }
-
-
 
 // function Meal(newMeal) {
 //   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
@@ -75,11 +64,8 @@ function searchNewMeals(request, response){
 //   this.carbohydrates =
 // }
 
-
-
-
-function handleError(error, response){
+function handleError(error, response) {
   console.log(error);
   console.log('response', response);
-  if (response) response.render('pages/error', {error: 'Something went wrong....  Try again!'});
+  if (response) response.render('pages/error', { error: 'Something went wrong....  Try again!' });
 }
