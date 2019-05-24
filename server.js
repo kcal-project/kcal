@@ -19,7 +19,7 @@ client.connect();
 client.on('error', err => console.log(err));
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('Public'));
+app.use(express.static('public'));
 
 app.set('view engine', 'ejs');
 
