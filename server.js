@@ -19,38 +19,37 @@ client.connect();
 client.on('error', err => console.log(err));
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static('./public'));
 
 app.set('view engine', 'ejs');
-
 
 // Routes
 
 // app.get('/', getMealsFromDB);
 app.get('/', formIntake);
 
-app.post('/meals', searchNewMeals);
+// app.post('/meals', searchNewMeals);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
 function formIntake(request, response) {
-  response.render('views/intake-form');
+  response.render('pages/intake-form');
 }
 
-function searchNewMeals(request, response) {
-  response.send('Ok');
-  unirest.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=2000&timeFrame=day')
-    .header('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
-    .header('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
-    .then(apiResponse => apiResponse.body.items.map(mealResults => new Meal(mealResults)))
-    .then(results => {
-      console.log('line$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', results.body);
-      response.render('', { meals: results })
-    })
+// function searchNewMeals(request, response) {
+//   response.send('Ok');
+//   unirest.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=2000&timeFrame=day')
+//     .header('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
+//     .header('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+//     .then(apiResponse => apiResponse.body.items.map(mealResults => new Meal(mealResults)))
+//     .then(results => {
+//       console.log('line$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', results.body);
+//       response.render('', { meals: results })
+//     })
 
-    .catch(err => handleError(err, response));
-}
+//     .catch(err => handleError(err, response));
+// }
 
 // function Meal(newMeal) {
 //   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
