@@ -37,15 +37,14 @@ function formIntake(request, response) {
 }
 
 function searchNewMeals(request, response){
-  console.log(request.body);
-  // response.send('Ok');
+  
   superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=2000&timeFrame=day') // summary
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
 
     .then(apiResponse => apiResponse.body.meals.map(mealResult => new Meal(mealResult)))  //console.log(apiResponse.body.meals))
     .then(results => {
-   
+      console.log(results);
       response.render('pages/results', {meals: results})
     })
 
@@ -54,17 +53,19 @@ function searchNewMeals(request, response){
 }
 
 function Meal(newMeal) {
-  // const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
+  const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
   this.id = newMeal.id ? newMeal.id : 'No id available';
   this.title = newMeal.title ? newMeal.title : 'No title available';
   this.readyInMinutes = newMeal.readyInMinutes ? newMeal.readyInMinutes : 'No info available';
   this.servings = newMeal.servings ? newMeal.servings : 'No info available';
-  this.image = newMeal.image; //? info.volumeInfo.imageLinks.thumbnail.replace('http:', 'https:') : placeholderImage;
+  this.image = `https://spoonacular.com/recipeImages/${newMeal.image}`;      //newMeal.image ? newMeal.image.replace('http:', 'https:') : placeholderImage;
   // this.calories = newMeal.nutrients.calories;
   // this.protein = newMeal.nutrients.protein;
   // this.fat = newMeal.nutrients.fat;
   // this.carbohydrates = newMeal.nutrients.carbohydrates;
 }
+
+// https://spoonacular.com/recipeImages/{ID}-{SIZE}.{TYPE}
 
 function handleError(error, response) {
   console.log(error);
