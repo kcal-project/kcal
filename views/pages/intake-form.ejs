@@ -13,7 +13,7 @@
 <body>
 
   <main>
-
+    <form  action="/views" method="post">
     <label for="getAge">Age: </label>
     <input type="text" class="form-control" id="getAge">
     <p></p>
@@ -42,12 +42,24 @@
         <option value="1.9">If you are extra active (very hard exercise/sports & physical job or 2x training)</option>
       </select>
     </p>
+    <label for="getGoal">Enter Your Goal Weight: </label>
+      <input type = "text" class = "form-control" id = "getGoal" placeholder="Pounds">
 
-    <button class="btn btn-warning" type="button" id="button2"> Submit</button>
+      <p></p>
+      <p>How Fast Would You Like To Lose Weight?</p>
+      <label for = "mild">Mild</label>
+      <input type = "radio" name ="loss" id = "mild" value = "mild"/>
+      <label for = "moderate">Moderate</label>
+      <input type = "radio" name ="loss" id = "moderate" value = "moderate"/>
+      <label for = "extreme">Extreme</label>
+      <input type = "radio" name ="loss" id = "extreme" value = "extreme"/>
+      <p></p>
 
+      <button class = "btn" type = "submit" id = "button1"> See Plan</button>
+        
     </form>
-    <div id="results" style="display:none;"></div>
-    </div>
+    
+    
 
   </main>
 
