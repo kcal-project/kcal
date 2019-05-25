@@ -16,11 +16,21 @@
     <% meals.forEach(meal => { %>
       <div>
       <li class="img left"><img src='<%= meal.image %>' /></li>
-      <li class="title right"><%= meal.title %></li>
-      <li class="author right"><%= meal.readyInMinutes %></li>
+      <li class="title right">Meal Name: <%= meal.title %></li>
+      <li class="author right">Time to Prepare: <%= meal.readyInMinutes %> minutes</li>
+      
       
       </div>
     <% }); %>
+
+    <% nutrients  %>
+      <div>
+        <li class="img left">Combined Meal Calories: <%= nutrients.calories %></li>
+        <li class="title right">Combined Meal Protein: <%= nutrients.protein %></li>
+        <li class="author right">Combined Meal Fat: <%= nutrients.fat %></li>
+        <li class="author right">Combined Meal carbohydrates: <%= nutrients.carbohydrates %></li>
+      </div>
+    <%  %>
 
   </ul>
 </main>
@@ -30,3 +40,4 @@
 </body>
 
 </html>
+

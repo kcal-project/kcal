@@ -37,15 +37,17 @@ function formIntake(request, response) {
 }
 
 function searchNewMeals(request, response){
-  
   superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=2000&timeFrame=day') // summary
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
 
-    .then(apiResponse => apiResponse.body.meals.map(mealResult => new Meal(mealResult)))  //console.log(apiResponse.body.meals))
-    .then(results => {
-      console.log(results);
-      response.render('pages/results', {meals: results})
+    .then(apiResponse => {
+      let meals = apiResponse.body.meals.map(mealResult => new Meal(mealResult));
+      console.log(meals);
+      let nutrients = apiResponse.body.nutrients;//(nutrientsResult => new Nutrients(nutrientsResult));
+
+      console.log(nutrients);
+      response.render('pages/results', {meals: meals, nutrients: nutrients})
     })
 
     .catch(err => handleError(err,response));
@@ -58,12 +60,10 @@ function Meal(newMeal) {
   this.title = newMeal.title ? newMeal.title : 'No title available';
   this.readyInMinutes = newMeal.readyInMinutes ? newMeal.readyInMinutes : 'No info available';
   this.servings = newMeal.servings ? newMeal.servings : 'No info available';
-  this.image = `https://spoonacular.com/recipeImages/${newMeal.image}`;      //newMeal.image ? newMeal.image.replace('http:', 'https:') : placeholderImage;
-  // this.calories = newMeal.nutrients.calories;
-  // this.protein = newMeal.nutrients.protein;
-  // this.fat = newMeal.nutrients.fat;
-  // this.carbohydrates = newMeal.nutrients.carbohydrates;
+  this.image = `https://spoonacular.com/recipeImages/${newMeal.image}` ? `https://spoonacular.com/recipeImages/${newMeal.image}` : placeholderImage;
 }
+
+
 
 // https://spoonacular.com/recipeImages/{ID}-{SIZE}.{TYPE}
 
