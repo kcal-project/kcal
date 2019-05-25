@@ -27,17 +27,24 @@ app.set('view engine', 'ejs');
 
 // app.get('/', getMealsFromDB);
 app.get('/', formIntake);
+
+app.get('/about', aboutUs);
+
 app.post('/views', searchNewMeals);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+
+function aboutUs(request, response) {
+  response.render('pages/about');
+}
 
 function formIntake(request, response) {
   response.render('pages/intake-form');
 }
 
 function searchNewMeals(request, response){
-  
+
   superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=2000&timeFrame=day') // summary
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
