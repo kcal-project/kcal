@@ -30,7 +30,7 @@ app.get('/', formIntake);
 
 app.get('/about', aboutUs);
 
-app.post('/views', searchNewMeals);
+app.post('/my-dashboard', searchNewMeals);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
@@ -52,7 +52,7 @@ function searchNewMeals(request, response){
     .then(apiResponse => apiResponse.body.meals.map(mealResult => new Meal(mealResult)))  //console.log(apiResponse.body.meals))
     .then(results => {
       console.log(results);
-      response.render('pages/results', {meals: results})
+      response.render('pages/my-dashboard', {meals: results})
     })
 
     .catch(err => handleError(err,response));
