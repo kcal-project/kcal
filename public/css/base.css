@@ -1,0 +1,51 @@
+html {
+  margin: 0 auto;
+  width: 100%;
+  background: rgb(134, 134, 134);
+}
+
+nav {
+  margin-bottom: 20px;
+}
+
+nav ul {
+  overflow: hidden;
+  background-color: #333;
+}
+
+nav li a {
+  display: inline-block;
+  color: white;
+  margin: 0 auto;
+  text-align: center;
+  padding: 15px 0px;
+  text-decoration: none;
+  width: 100%;
+}
+
+nav li a:hover:not(.active) {
+  background-color: rgb(97, 97, 97);
+}
+
+nav .active {
+  background-color: rgb(196, 124, 37);
+}
+
+main {
+  width: 100%;
+}
+
+img {
+  object-fit: contain;
+  width: 250px;
+  height: 250px;
+  background: white;
+}
+
+footer {
+  background: rgb(196, 124, 37);
+  width: 100%;
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+}

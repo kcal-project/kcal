@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../layouts/head') %>
+<body>
+  <%- include('../layouts/header') %>
+  <main>
+    
+    
+    
+  <h1><%= meals.length %> Meals</h1>
+  
+
+  <ul>
+    <% meals.forEach(meal => { %>
+      <div>
+      <li class="img left"><img src='<%= meal.image %>' /></li>
+      <li class="title right">Meal Name: <%= meal.title %></li>
+      <li class="author right">Time to Prepare: <%= meal.readyInMinutes %> minutes</li>
+      
+      </div>
+    <% }); %>
+
+    <% nutrients  %>
+      <div>
+        <li class="img left">Combined Meal Calories: <%= nutrients.calories %></li>
+        <li class="title right">Combined Meal Protein: <%= nutrients.protein %></li>
+        <li class="author right">Combined Meal Fat: <%= nutrients.fat %></li>
+        <li class="author right">Combined Meal carbohydrates: <%= nutrients.carbohydrates %></li>
+      </div>
+    <%  %>
+
+  </ul>
+</main>
+<%- include('../layouts/footer') %>
+</body>
+
+</html>

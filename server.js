@@ -27,44 +27,110 @@ app.set('view engine', 'ejs');
 
 // app.get('/', getMealsFromDB);
 app.get('/', formIntake);
+app.get('/about', aboutUs);
 
-// app.post('/meals', searchNewMeals);
+app.post('/my-dashboard', searchNewMeals);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+
+function aboutUs(request, response) {
+  response.render('pages/about');
+}
+
+function getBmr(request, response){
+  let height = request.body.height;
+  let weight = request.body.weight;
+  let age =  request.body.age;
+  let sex = request.body.sex;
+  let activity = request.body.getActivity;
+  let goal =  request.body.goal;
+  let loss = request.body.loss;
+
+  let bmrWithoutActivity = 0;
+  if (sex === 'male'){
+    bmrWithoutActivity = (10*(weight/2.205)+ 6.25*(height*2.54) - (5*age) + 5);
+  }
+  else{
+    bmrWithoutActivity = (10*(weight/2.205) + (6.25*(height*2.54)) - (5*age) - 161);
+  }
+  let completeBmr = Math.floor(bmrWithoutActivity * activity);
+  if (loss === 'mild'){
+    return completeBmr -215;
+  }
+  if (loss === 'moderate'){
+    return completeBmr -500;
+  }
+  if (loss === 'extreme'){
+    return completeBmr -1000;
+  }
+}
 
 function formIntake(request, response) {
   response.render('pages/intake-form');
 }
 
-// function searchNewMeals(request, response) {
-//   response.send('Ok');
-//   unirest.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=2000&timeFrame=day')
-//     .header('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
-//     .header('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
-//     .then(apiResponse => apiResponse.body.items.map(mealResults => new Meal(mealResults)))
-//     .then(results => {
-//       console.log('line$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', results.body);
-//       response.render('', { meals: results })
-//     })
+function searchNewMeals(request, response){
+  let calories = getBmr(request, response);
 
-//     .catch(err => handleError(err, response));
+  superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=${calories}&timeFrame=day`)
+    .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
+    .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+
+    .then(apiResponse => {
+
+      let meals = apiResponse.body.meals.map(mealResult => new Meal(mealResult));
+      let nutrients = apiResponse.body.nutrients;
+
+      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients})
+    })
+
+    .catch(err => handleError(err,response));
+
+}
+
+// function searchRecipe(request, response, apiResponse){
+
+//   for (let i = 0; i <= apiResponse.body.meals.length; i++){
+
+//     superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${apiResponse.body.meals[i].id}/summary`)
+//       .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
+//       .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+
+//       .then(response => {
+//         let recipe = response.body.meals.map(recResult => new Recipe(recResult));
+
+//         console.log(recipe);
+//         response.render('pages/results', {recipe: recipe});
+//       })
+//   }
 // }
 
-// function Meal(newMeal) {
-//   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
-//   this.title = info.volumeInfo.title ? info.volumeInfo.title : 'No title available';
-//   this.readyInMinutes = info.volumeInfo.authors ? info.volumeInfo.authors : 'No author available';
-//   this.servings = info.volumeInfo.description ? info.volumeInfo.description : 'No description available';
-//   this.image = info.volumeInfo.imageLinks ? info.volumeInfo.imageLinks.thumbnail.replace('http:', 'https:') : placeholderImage;
-//   this.calories =
-//   this.protein =
-//   this.fat =
-//   this.carbohydrates =
-// }
+function Recipe(newRec){
+  this.id = newRec.id;
+  this.title = newRec.title;
+  this.summary = newRec.summary;
+}
+
+function Meal(newMeal) {
+  const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
+  this.id = newMeal.id ? newMeal.id : 'No id available';
+  this.title = newMeal.title ? newMeal.title : 'No title available';
+  this.readyInMinutes = newMeal.readyInMinutes ? newMeal.readyInMinutes : 'No info available';
+  this.servings = newMeal.servings ? newMeal.servings : 'No info available';
+  this.image = `https://spoonacular.com/recipeImages/${newMeal.image}` ? `https://spoonacular.com/recipeImages/${newMeal.image}` : placeholderImage;
+}
+
 
 function handleError(error, response) {
   console.log(error);
   console.log('response', response);
   if (response) response.render('pages/error', { error: 'Something went wrong....  Try again!' });
 }
+
+
+// random food jokes
+
+// superagent.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/jokes/random")
+// .set("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
+// .set("X-RapidAPI-Key", "509ec1d697msh56b7f8c3810108cp1de311jsne54bddc4d03d")
