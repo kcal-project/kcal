@@ -29,7 +29,10 @@ app.set('view engine', 'ejs');
 app.get('/', formIntake);
 app.get('/about', aboutUs);
 
+// app.get('/', search);
+
 app.post('/my-dashboard', searchNewMeals);
+// app.post('/my-dashboard', searchRecipe);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
@@ -44,7 +47,7 @@ function getBmr(request, response){
   let age =  request.body.age;
   let sex = request.body.sex;
   let activity = request.body.getActivity;
-  let goal =  request.body.goal;
+  // let goal =  request.body.goal;
   let loss = request.body.loss;
 
   let bmrWithoutActivity = 0;
@@ -55,6 +58,7 @@ function getBmr(request, response){
     bmrWithoutActivity = (10*(weight/2.205) + (6.25*(height*2.54)) - (5*age) - 161);
   }
   let completeBmr = Math.floor(bmrWithoutActivity * activity);
+
   if (loss === 'mild'){
     return completeBmr -215;
   }
@@ -66,13 +70,59 @@ function getBmr(request, response){
   }
 }
 
+function goalDate(request, response){
+  let today = new Date();
+  let loss = request.body.loss;
+  let weight = request.body.weight;
+  let goal =  request.body.goal;
+
+
+  if (loss === 'mild'){
+    let weeks = ((weight - goal)/.5);
+    let days = weeks*7;
+    today.setDate(today.getDate() + days);
+
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var y = today.getFullYear();
+
+    var formattedDate = mm + '/' + dd + '/' + y;
+    return formattedDate;
+  }
+  if (loss === 'moderate'){
+    let weeks = ((weight - goal)/1);
+    let days = weeks*7;
+    today.setDate(today.getDate() + days);
+
+    dd = today.getDate();
+    mm = today.getMonth() + 1;
+    y = today.getFullYear();
+
+    formattedDate = mm + '/' + dd + '/' + y;
+    return formattedDate;
+  }
+  if (loss === 'extreme'){
+    let weeks = ((weight - goal)/2);
+    let days = weeks*7;
+    today.setDate(today.getDate() + days);
+
+    dd = today.getDate();
+    mm = today.getMonth() + 1;
+    y = today.getFullYear();
+
+    formattedDate = mm + '/' + dd + '/' + y;
+    return formattedDate;
+  }
+}
+
 function formIntake(request, response) {
   response.render('pages/intake-form');
 }
 
 function searchNewMeals(request, response){
   let calories = getBmr(request, response);
-
+  let projDate = goalDate(request, response);
+  let plan = request.body.loss;
   superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=${calories}&timeFrame=day`)
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
@@ -80,36 +130,42 @@ function searchNewMeals(request, response){
     .then(apiResponse => {
 
       let meals = apiResponse.body.meals.map(mealResult => new Meal(mealResult));
+      console.log('meals$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', meals);
       let nutrients = apiResponse.body.nutrients;
-
-      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients})
+      let idArray = meals.map((meal)=> meal.id);
+      searchRecipe(idArray);
+      console.log('idArray $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', idArray);
+      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate, plan: plan})
     })
 
-    .catch(err => handleError(err,response));
+    //.catch(err => handleError(err,response));
 
 }
 
-// function searchRecipe(request, response, apiResponse){
+function searchRecipe(request, response){
+  // let id = sea
+  // for (let i = 0; i <= apiResponse.body.meals.length; i++){
 
-//   for (let i = 0; i <= apiResponse.body.meals.length; i++){
+  superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/1003464/ingredientWidget.json')
+    .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
+    .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
 
-//     superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${apiResponse.body.meals[i].id}/summary`)
-//       .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
-//       .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+    .then(apiResponse => {
+      console.log('line107 apiresponse&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&' ,apiResponse.body);
+      let ingredient = apiResponse.body.ingredients.map(recResult => new Recipe(recResult));
 
-//       .then(response => {
-//         let recipe = response.body.meals.map(recResult => new Recipe(recResult));
+      console.log('line 110 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',ingredient);
+      //response.render('pages/my-dashboard', {ingredient: ingredient});
+    })
 
-//         console.log(recipe);
-//         response.render('pages/results', {recipe: recipe});
-//       })
-//   }
-// }
+}
+
+
 
 function Recipe(newRec){
   this.id = newRec.id;
-  this.title = newRec.title;
-  this.summary = newRec.summary;
+  this.name = newRec.name;
+  this.amount = newRec.amount;
 }
 
 function Meal(newMeal) {
