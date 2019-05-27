@@ -122,7 +122,7 @@ function formIntake(request, response) {
 function searchNewMeals(request, response){
   let calories = getBmr(request, response);
   let projDate = goalDate(request, response);
-
+  let plan = request.body.loss;
   superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=${calories}&timeFrame=day`)
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
@@ -135,10 +135,10 @@ function searchNewMeals(request, response){
       let idArray = meals.map((meal)=> meal.id);
       searchRecipe(idArray);
       console.log('idArray $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', idArray);
-      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate})
+      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate, plan: plan})
     })
 
-    .catch(err => handleError(err,response));
+    //.catch(err => handleError(err,response));
 
 }
 
@@ -155,7 +155,7 @@ function searchRecipe(request, response){
       let ingredient = apiResponse.body.ingredients.map(recResult => new Recipe(recResult));
 
       console.log('line 110 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',ingredient);
-      response.render('pages/my-dashboard', {ingredient: ingredient});
+      //response.render('pages/my-dashboard', {ingredient: ingredient});
     })
 
 }

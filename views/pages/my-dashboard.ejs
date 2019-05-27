@@ -7,10 +7,71 @@
     
     
     
-  <h1><%= meals.length %> Meals</h1>
+  <p>You have selected the <%= plan %> diet plan!</p>
   <p>You will reach your goal weight around <%= projDate %></p>
+  <p>We have generated your meal plan for the day according to your current body metrics and diet plan.</p>
+  <p>Every 7 days update your new weight to adjust your meal plan, and feel free to change your diet plan to slow or fast-track your results.</p>
+  <button type="button" class="showButton" form="hiddenForm" name="hiddenForm" >Update Plan</button>
     
+  <section>
+      <form  action="/my-dashboard" method="post" id="hiddenForm" class="form">
+      <label for="getAge">Age: </label>
+      <input type="text" class="form-control" id="getAge" placeholder="Years" name="age">
+      <p></p>
   
+      <label for="getHeight">Height: </label>
+      <input type="text" class="form-control" id="getHeight" placeholder="Inches" name="height">
+      <p></p>
+  
+      <label for="male">Male</label>
+      <input type="radio" name="sex" id="male" value="male" />
+      <label for="female">Female </label>
+      <input type="radio" name="sex" id="female" value="female" />
+      <p></p>
+  
+      <label for="getWeight">Weight: </label>
+      <input type="text" class="form-control" id="getWeight" placeholder="Pounds" name="weight">
+      <p></p>
+  
+      <p>
+        <label for="getActivity">Daily Activity:</label>
+        <select name="getActivity" id="getActivity">
+          <option value="1.2">Sedentary (little or no exercise)</option>
+          <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
+          <option value="1.55">Moderately active (moderate exercise 3-5 days/week)</option>
+          <option value="1.725">Very active (hard exercise 6-7 days a week)</option>
+          <option value="1.9">Extremely active (extreme exercise & physical job)</option>
+        </select>
+      </p>
+      <label for="getGoal">Enter Your Goal Weight: </label>
+        <input type = "text" class = "form-control" id = "getGoal" placeholder="Pounds" name="goal">
+  
+        <p></p>
+        <p>How Fast Would You Like To Lose Weight?</p>
+        <label for = "mild">Mild</label>
+        <input type = "radio" name ="loss" id = "mild" value = "mild"/>
+        <label for = "moderate">Moderate</label>
+        <input type = "radio" name ="loss" id = "moderate" value = "moderate"/>
+        <label for = "extreme">Extreme</label>
+        <input type = "radio" name ="loss" id = "extreme" value = "extreme"/>
+        <p></p>
+  
+        <button class = "btn" type = "submit" id = "button1"> Update Plan</button>
+          
+      </form>
+      
+    </section>
+
+
+    <p>Your daily meal plan is designed to fit your diet plan bases on your caloric needs to achieve your goal weight.</p>
+    <% nutrients  %>
+    <div>
+      <li class="img left">Combined Meal Calories: <%= nutrients.calories %></li>
+      <li class="title right">Combined Meal Protein: <%= nutrients.protein %></li>
+      <li class="author right">Combined Meal Fat: <%= nutrients.fat %></li>
+      <li class="author right">Combined Meal carbohydrates: <%= nutrients.carbohydrates %></li>
+    </div>
+  <%  %>
   
 
   <ul>
@@ -23,16 +84,6 @@
       </div>
     <% }); %>
 
-    
-
-    <% nutrients  %>
-      <div>
-        <li class="img left">Combined Meal Calories: <%= nutrients.calories %></li>
-        <li class="title right">Combined Meal Protein: <%= nutrients.protein %></li>
-        <li class="author right">Combined Meal Fat: <%= nutrients.fat %></li>
-        <li class="author right">Combined Meal carbohydrates: <%= nutrients.carbohydrates %></li>
-      </div>
-    <%  %>
 
   </ul>
 </main>
