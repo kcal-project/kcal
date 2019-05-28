@@ -26,9 +26,17 @@ app.set('view engine', 'ejs');
 // Routes
 
 // app.get('/', getMealsFromDB);
-app.get('/', formIntake);
+// app.get('/', formIntake);
 app.get('/about', aboutUs);
 
+
+
+app.get('/', getLogIn);
+app.get('/join', showForm);
+app.post('/join', addUser);
+app.post('/', allowIn);
+
+// app.get('/', search);
 
 
 app.post('/my-dashboard', searchNewMeals);
@@ -36,6 +44,77 @@ app.post('/my-dashboard', searchNewMeals);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+
+//Login content! ////////////////////////////////////////////////////////////
+
+function addUser(request, response) {
+  console.log('🤨', request.body);
+
+  let {firstname, lastname, username } = request.body;
+
+  firstname = firstname.toLowerCase();
+  lastname = lastname.toLowerCase();
+  username = username.toLowerCase();
+  console.log('This is the user email: ', username);
+
+  let userExist = 'SELECT * FROM users WHERE username = $1;';
+  let values1 = [username];
+
+  client.query(userExist, values1)
+    .then(results => {
+      if(results.rows.length > 0) {
+        response.render('pages/join');
+        console.log('this username exist!!!')
+      } else {
+        let SQL = 'INSERT INTO users (firstname, lastname, username) VALUES ($1, $2, $3);';
+        let values = [firstname, lastname, username];
+
+        client.query(SQL, values)
+          .then(result => {
+            console.log(result);
+            response.redirect('/');
+          })
+          .catch(error => handleError(error, response));
+      }
+    })
+    .catch(error => handleError(error, response));
+}
+
+function showForm(request, response) {
+  response.render('pages/join')
+}
+
+function getLogIn(request, response) {
+  response.render('pages/index')
+}
+
+function allowIn(request, response) {
+  console.log(process.env.DATABASE_URL);
+  let {username} = request.body;
+
+  let checkForUser = 'SELECT * FROM users WHERE username = $1;';
+  let value = [username];
+
+  client.query(checkForUser, value)
+    .then(results => {
+      console.log(results);
+      if(results.rowCount !== 0 && results.rows[0].username === username) {
+        response.render('pages/intake-form');
+        console.log('success 😀')
+      } else {
+        response.render('pages/index');
+        console.log('this route failed 😭😢');
+      }
+    })
+    .catch(error => handleError(error, response))
+}
+
+function handleError(error, response) {
+  console.log(error);
+  response.render('pages/error', { error: error });
+}
+
+
 
 function aboutUs(request, response) {
   response.render('pages/about');
@@ -165,6 +244,7 @@ function searchNewMeals(request, response){
       return userObj;
     })
 
+
     .then(result => {
       let {meals, nutrients, ingredients}= result;
       // console.log(meals, nutrients, ingredients);
@@ -193,6 +273,7 @@ function saveMealPlanToDB(request, response) {
 
 
 
+
 function Recipe(newRec){
 
   this.id = newRec.id;
@@ -200,6 +281,7 @@ function Recipe(newRec){
   this.value = newRec.amount.us.value;
   this.unit = newRec.amount.us.unit;
 }
+
 
 function Meal(newMeal) {
   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
