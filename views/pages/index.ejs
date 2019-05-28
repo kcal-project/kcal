@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-  <h1>Hello Index</h1>
-  
-  <div class="login-contanier">
-      <form action="/" method="post" class='form-sign-in'>
-        <input type="text" name="username" class="form-control" placeholder="Email" requried autofocus>
-        <input type="checkbox" name="remember" class="form-control" placeholder="Remember me">
-  
-        <button type="submit">Sign In</button>
-      </form>
-    </div>
-    <div class="join-container">
-      <a href="/join">Join</a>
-    </div>
+<%- include('../layouts/head') %>
+  </head>
 
-</body>
+  <body id="login-page">
+    <%- include('../layouts/header') %>
+    <!-- <img id="backbackground" src="images/backbackground.jpg"> -->
+
+      <h1 id="joke">Hero Message</h1>
+
+      <div class="login-contanier">
+        <br>
+        <form action="/" method="post" class='form-sign-in'>
+          Username <input type="text" name="username" class="form-control" placeholder="Email" requried autofocus>
+          <br>
+          Remember Me <input type="checkbox" name="remember" class="form-control" placeholder="Remember me"> 
+
+          <br>
+          <button type="submit"> Sign In</button>
+        </form>
+        <div class="join-container">
+          <br> Don't have an account?
+          <br>
+          <a href="/join">Join</a>
+        </div>
+      </div>
+      <%- include('../layouts/footer') %>
+  </body>
+
 </html>
