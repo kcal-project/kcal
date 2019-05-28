@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS metrics;
 DROP TABLE IF EXISTS meals;
+DROP TABLE IF EXISTS recipes;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY, 
   username VARCHAR(255),
   password VARCHAR(255),
-  FOREIGN KEY
 );
 
 CREATE TABLE metrics (
@@ -17,7 +17,7 @@ CREATE TABLE metrics (
   sex VARCHAR(255),
   activity_level VARCHAR(255),
   goal_weight INTEGER NOT NULL,
-  FOREIGN KEY
+  FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE TABLE meals (
@@ -28,5 +28,16 @@ CREATE TABLE meals (
   serving_size VARCHAR(255),
   meal_image VARCHAR(255),
   nutrients VARCHAR(255),
-  FOREIGN KEY
+  FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+CREATE TABLE recipes (
+  id SERIAL PRIMARY KEY,
+  daily_caloric_goal VARCHAR(255),
+  meal_title VARCHAR(255),
+  ready_in VARCHAR(255),
+  serving_size VARCHAR(255),
+  meal_image VARCHAR(255),
+  nutrients VARCHAR(255),
+  FOREIGN KEY (meal_id) REFERENCES meals (id)
 );
