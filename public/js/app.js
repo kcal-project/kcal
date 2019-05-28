@@ -6,12 +6,4 @@ $(document).ready(function(){
   });
 });
 
-// goes back into my dashboard page
-// <!-- <% ingredient.forEach(ingr => { %>
-//   <div>
-  
-//   <li class="title right">Ingredient<%= ingr.name %></li>
-//   <li class="author right">Amount: <%= ingr.amount %></li>
-  
-//   </div>
-// <% }); %> -->
+
