@@ -55,8 +55,8 @@ footer {
   display: table-row;
   height: 3%;
   margin-top: 50px;
-  padding: 20px 0px;
   text-align: center;
+  line-height: 3;
 }
 
 #intake-form {

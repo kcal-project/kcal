@@ -8,6 +8,7 @@ $(document).ready(function () {
   });
 });
 
+<<<<<<< HEAD
 function renderMenuIcon() {
   var x = document.getElementById("myLinks");
   if (x.style.display === "block") {
@@ -16,3 +17,6 @@ function renderMenuIcon() {
     x.style.display = "block";
   }
 }
+=======
+
+>>>>>>> b10cae2c4e15f6158660251ddce312c0de56663c

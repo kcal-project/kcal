@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS metrics;
 DROP TABLE IF EXISTS meals;
 DROP TABLE IF EXISTS recipes;
 
+
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   "firstname" VARCHAR(255),
