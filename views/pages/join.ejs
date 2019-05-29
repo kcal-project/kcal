@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <%- include('../layouts/head') %>
 </head>
 <body>
-  <h1>Please register first to log in.</h1>
+
+  <%- include('../layouts/header') %>
+  <h1>Create an Account</h1>
+
   <div class="join-container">
     <form class="form-signup" action="/join" method="post">
       <input type="text" name="firstname" class="form-control" placeholder="First Name" autofocus>
@@ -19,6 +19,7 @@
   <div class="login-container">
     <a href="/">Login</a>
   </div>
+  <%- include('../layouts/footer') %>
 </body>
 </html>
 

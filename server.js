@@ -33,8 +33,19 @@ app.get('/', getLogIn);
 app.get('/join', showForm);
 app.post('/join', addUser);
 app.post('/', allowIn);
+
 app.post('/my-dashboard', saveMetricsToDB);
 // app.post('/my-dashboard', saveMetricsToDB);
+
+// app.post('/', createJoke);
+
+
+// app.get('/', search);
+
+
+//app.post('/my-dashboard', searchNewMeals);
+
+
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
@@ -303,6 +314,20 @@ function handleError(error, response) {
   console.log('response', response);
   if (response) response.render('pages/error', { error: 'Something went wrong....  Try again!' });
 }
+
+
+// random food jokes
+function createJoke(request, response) {
+  superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/jokes/random')
+    .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
+    .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+    .then(apiResponse => {
+      console.log('apiResponse', apiResponse.body.text);
+      let joke = apiResponse.body.text
+      response.render('/index', {joke})
+    })
+}
+
 
 
 

@@ -9,8 +9,8 @@ CREATE TABLE users (
   "firstname" VARCHAR(255),
   "lastname" VARCHAR(50),
   username VARCHAR(50) UNIQUE
-
 );
+
 
 
 CREATE TABLE metrics (
@@ -46,3 +46,4 @@ CREATE TABLE metrics (
 --   nutrients VARCHAR(255),
 --   FOREIGN KEY (meal_id) REFERENCES meals (id)
 -- );
+

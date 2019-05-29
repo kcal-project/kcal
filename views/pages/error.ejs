@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html>
+<%- include('../layouts/head') %>
 
-<head> 
-  
-</head>
+    <body>
+        <%- include('../layouts/header') %>
+        <p><a href="/new">Go Back From Whence You Came</a></p> // change path!
+        <p>
+            <%= error %>
+        </p>
 
-<body>
-    <header>
-        
-    </header>
-    <p><a href="">Go Back From Whence You Came</a></p>  // change path!
-    <p><%= error %></p>
-  
-    <footer> 
-        
-    </footer>
-</body>
+
+        <%- include('../layouts/footer') %>
+    </body>
+
 
 </html>
