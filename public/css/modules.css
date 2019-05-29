@@ -65,3 +65,7 @@
 header, footer {
   opacity: .9;
 }
+
+.form {
+  display: none;
+}
