@@ -29,18 +29,12 @@ app.set('view engine', 'ejs');
 // app.get('/', formIntake);
 app.get('/about', aboutUs);
 
-
-
 app.get('/', getLogIn);
 app.get('/join', showForm);
 app.post('/join', addUser);
 app.post('/', allowIn);
-
-// app.get('/', search);
-
-
-app.post('/my-dashboard', searchNewMeals);
-
+app.post('/my-dashboard', saveMetricsToDB);
+// app.post('/my-dashboard', saveMetricsToDB);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
@@ -48,7 +42,7 @@ app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 //Login content! ////////////////////////////////////////////////////////////
 
 function addUser(request, response) {
-  console.log('🤨', request.body);
+  // console.log('🤨', request.body);
 
   let {firstname, lastname, username } = request.body;
 
@@ -102,7 +96,7 @@ function allowIn(request, response) {
         response.render('pages/intake-form');
         console.log('success 😀')
       } else {
-        response.render('pages/index');
+        response.render('pages/join');
         console.log('this route failed 😭😢');
       }
     })
@@ -126,7 +120,6 @@ function getBmr(request, response){
   let age =  request.body.age;
   let sex = request.body.sex;
   let activity = request.body.getActivity;
-  // let goal =  request.body.goal;
   let loss = request.body.loss;
 
   let bmrWithoutActivity = 0;
@@ -216,7 +209,8 @@ function searchRecipe(data){
 
 }
 
-function searchNewMeals(request, response){
+let searchNewMeals = function(request, response)  {
+  console.log('🤨line 214 ****************************************', request.body);
   let calories = getBmr(request, response);
   let projDate = goalDate(request, response);
   let plan = request.body.loss;
@@ -255,28 +249,39 @@ function searchNewMeals(request, response){
 
 }
 
-//app.post('/saved-menus/:user_id', saveMealPlanToDB);////////////////////////////
 
-function saveMealPlanToDB(request, response) {
 
-  let { id, title, readyInMinutes, servings, image, user_id} = request.body;
+function saveMetricsToDB(request, response) {
 
-  let SQL = 'INSERT INTO meals(id, title, readyInMinutes, servings, image, user_id) VALUES ($1, $2, $3, $4, $5, $6);';
-  let values = [id, title, readyInMinutes, servings, image, user_id];
+  
+
+  console.log('request.body line 255 ********', request.body);
+  let { age, height, sex, weight, getActivity, goal, loss} = request.body;
+
+  let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss) VALUES ($1, $2, $3, $4, $5, $6, $7);';
+  let values = [age, height, sex, weight, getActivity, goal, loss];
 
   return client.query(SQL, values)
-    .then(response.redirect('/'))
-    .catch(err => handleError(err, response));
+
+    .then(searchNewMeals(request, response))
+    .catch(err => handleError(err, response))
+    
+
+
 }
 
-
-
+// { age: '56',
+//   height: '72',
+//   sex: 'male',
+//   weight: '222',
+//   getActivity: '1.2',
+//   goal: '180',
+//   loss: 'mild' }
 
 
 
 function Recipe(newRec){
 
-  this.id = newRec.id;
   this.name = newRec.name;
   this.value = newRec.amount.us.value;
   this.unit = newRec.amount.us.unit;
@@ -300,8 +305,4 @@ function handleError(error, response) {
 }
 
 
-// random food jokes
 
-// superagent.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/jokes/random")
-// .set("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
-// .set("X-RapidAPI-Key", "509ec1d697msh56b7f8c3810108cp1de311jsne54bddc4d03d")
