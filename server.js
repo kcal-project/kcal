@@ -35,6 +35,8 @@ app.get('/', getLogIn);
 app.get('/join', showForm);
 app.post('/join', addUser);
 app.post('/', allowIn);
+// app.post('/', createJoke);
+
 
 // app.get('/', search);
 
@@ -297,6 +299,18 @@ function handleError(error, response) {
   console.log(error);
   console.log('response', response);
   if (response) response.render('pages/error', { error: 'Something went wrong....  Try again!' });
+}
+
+// random food jokes
+function createJoke(request, response) {
+  superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/jokes/random')
+    .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
+    .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+    .then(apiResponse => {
+      console.log('apiResponse', apiResponse.body.text);
+      let joke = apiResponse.body.text
+      response.render('/index', {joke})
+    })
 }
 
 

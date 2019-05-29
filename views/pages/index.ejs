@@ -7,22 +7,24 @@
     <%- include('../layouts/header') %>
     <!-- <img id="backbackground" src="images/backbackground.jpg"> -->
 
-      <h1 id="joke">Hero Message</h1>
+      <h1 id="joke">"My idea of flirting is giving them 1 of my 10 tacos..."</h1>
+      <br>
+      <br>
+      <br>
 
       <div class="login-contanier">
+        <h1><em>Let's do this thing!</em></h1>
         <br>
         <form action="/" method="post" class='form-sign-in'>
-          Username <input type="text" name="username" class="form-control" placeholder="Email" requried autofocus>
-          <br>
-          Remember Me <input type="checkbox" name="remember" class="form-control" placeholder="Remember me"> 
-
-          <br>
+          <input type="text" name="username" class="form-control" placeholder="email" requried autofocus>
           <button type="submit"> Sign In</button>
         </form>
         <div class="join-container">
+          <br>
+          <br>
           <br> Don't have an account?
           <br>
-          <a href="/join">Join</a>
+          <a id="join-link" href="/join">Join</a>
         </div>
       </div>
       <%- include('../layouts/footer') %>
