@@ -300,8 +300,4 @@ function handleError(error, response) {
 }
 
 
-// random food jokes
 
-// superagent.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/jokes/random")
-// .set("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
-// .set("X-RapidAPI-Key", "509ec1d697msh56b7f8c3810108cp1de311jsne54bddc4d03d")
