@@ -2,6 +2,7 @@
 <html lang="en">
   <%- include('../layouts/head') %>
 <body>
+<<<<<<< HEAD
     <header>
         <div class="topnav">
             <a href="/" class="active">KCAL</a>
@@ -13,6 +14,17 @@
             </a>
           </div>
     </header>
+=======
+  <%- include('../layouts/header') %>
+
+  <main>
+    <form  action="/my-dashboard/<%= user_id %>" method="post">
+      <% console.log(user_id) %>
+    <label for="getAge">Age: </label>
+    <input type="text" class="form-control" id="getAge" placeholder="Years" name="age">
+    <p></p>
+
+>>>>>>> c5f27dada2f41e698c202e0b8d23e2cf7f4bd688
     <main>
 
       
@@ -68,6 +80,7 @@
     </main>
 
     <%- include('../layouts/footer') %>
+
 </body>
 
 </html>
