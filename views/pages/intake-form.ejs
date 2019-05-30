@@ -8,7 +8,8 @@
 <body>
   <%- include('../layouts/header') %>
   <main>
-    <form  action="/my-dashboard" method="post">
+    <form  action="/my-dashboard/<%= user_id %>" method="post">
+      <% console.log(user_id) %>
     <label for="getAge">Age: </label>
     <input type="text" class="form-control" id="getAge" placeholder="Years" name="age">
     <p></p>

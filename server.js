@@ -37,7 +37,7 @@ app.post('/', allowIn);
 
 // app.get('/', search);
 
-app.post('/my-dashboard', searchNewMeals);
+app.post('/my-dashboard/:user_id', searchNewMeals);
 // app.post('/my-dashboard', searchRecipe);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
@@ -97,10 +97,14 @@ function allowIn(request, response) {
     .then(results => {
       console.log(results);
       if(results.rowCount !== 0 && results.rows[0].username === username) {
-        response.render('pages/intake-form');
+        const user_id = results.rows[0].id;
+
+        console.log('This is the user ID !!!!! 🆔🆔🆔🆔🆔🆔🆔 = ', user_id)
+
+        response.render('pages/intake-form', {user_id: user_id});
         console.log('success 😀')
       } else {
-        response.render('pages/index');
+        response.render('pages/index' );
         console.log('this route failed 😭😢');
       }
     })
