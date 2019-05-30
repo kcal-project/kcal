@@ -2,35 +2,14 @@
 <html lang="en">
   <%- include('../layouts/head') %>
 <body>
-<<<<<<< HEAD
-    <header>
-        <div class="topnav">
-            <a href="/" class="active">KCAL</a>
-            <div id="myLinks">
-              <a href="/about">About</a>
-            </div>
-            <a href="javascript:void(0);" class="icon" onclick="renderMenuIcon()">
-                <i class="fa fa-bars"></i>
-            </a>
-          </div>
-    </header>
-=======
   <%- include('../layouts/header') %>
-
-  <main>
-    <form  action="/my-dashboard/<%= user_id %>" method="post">
-      <% console.log(user_id) %>
-    <label for="getAge">Age: </label>
-    <input type="text" class="form-control" id="getAge" placeholder="Years" name="age">
-    <p></p>
-
->>>>>>> c5f27dada2f41e698c202e0b8d23e2cf7f4bd688
+  
     <main>
 
       
       <div id="intake-form">
           <h1>Please enter your personal stats and goals</h1>
-        <form action="/my-dashboard" method="post">
+        <form action="/my-dashboard/<%= user_id %>" method="post">
           <label for="getAge">Age: </label>
           <input type="text" class="form-control" id="getAge" placeholder="Years" name="age">
           <p></p>
