@@ -3,7 +3,6 @@
   overflow: hidden;
   background-color: #333;
   position: relative;
-  margin-bottom: 50px;
 }
 
 /* Hide the links inside the navigation menu (except for logo/home) */
@@ -37,7 +36,7 @@
 
 /* Style the active link (or home/logo) */
 .active {
-  background-color: orange;
+  background-color: rgb(255, 166, 0);
   color: white;
 }
 
@@ -51,7 +50,7 @@
   align-content: center;
   color: white;
   padding: 25px 0px 50px 0px;
-  margin-bottom: 300px;
+  margin-bottom: 150px;
 }
 
 #login-page {
@@ -64,6 +63,14 @@
 
 #join-page {
   background-image: url("../images/green-leaves-background.jpeg"); no-repeat center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#about-page {
+  background-image: url("../images/love-fern.jpeg"); no-repeat center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
