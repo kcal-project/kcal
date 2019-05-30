@@ -29,16 +29,27 @@ app.set('view engine', 'ejs');
 // app.get('/', formIntake);
 app.get('/about', aboutUs);
 
-
 app.get('/', getLogIn);
 app.get('/join', showForm);
 app.post('/join', addUser);
 app.post('/', allowIn);
 
+app.post('/my-dashboard', saveMetricsToDB);
+// app.post('/my-dashboard', saveMetricsToDB);
+
+// app.post('/', createJoke);
+
+
 // app.get('/', search);
+
 
 app.post('/my-dashboard/:user_id', searchNewMeals);
 // app.post('/my-dashboard', searchRecipe);
+
+
+//app.post('/my-dashboard', searchNewMeals);
+
+
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
@@ -46,7 +57,7 @@ app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 //Login content! ////////////////////////////////////////////////////////////
 
 function addUser(request, response) {
-  console.log('🤨', request.body);
+  // console.log('🤨', request.body);
 
   let {firstname, lastname, username } = request.body;
 
@@ -128,7 +139,6 @@ function getBmr(request, response){
   let age =  request.body.age;
   let sex = request.body.sex;
   let activity = request.body.getActivity;
-  // let goal =  request.body.goal;
   let loss = request.body.loss;
 
   let bmrWithoutActivity = 0;
@@ -200,54 +210,102 @@ function formIntake(request, response) {
   response.render('pages/intake-form');
 }
 
-function searchNewMeals(request, response){
+function searchRecipe(data){
+  console.log('line 123 ######################################### data', data.idArray);
+  // for (let i = 0; i <= apiResponse.body.meals.length; i++){
+
+  return superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/1003464/ingredientWidget.json')
+    .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
+    .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+
+    .then(apiResponse => {
+
+      let ingredients = apiResponse.body.ingredients.map(recResult => new Recipe(recResult));
+
+      // console.log('line 134 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',ingredients);
+      return [ingredients, data];
+    })
+
+}
+
+let searchNewMeals = function(request, response)  {
+  console.log('🤨line 214 ****************************************', request.body);
   let calories = getBmr(request, response);
   let projDate = goalDate(request, response);
   let plan = request.body.loss;
-  superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=${calories}&timeFrame=day`)
+
+  let userData = superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=${calories}&timeFrame=day`)
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
 
     .then(apiResponse => {
-
-      let meals = apiResponse.body.meals.map(mealResult => new Meal(mealResult));
-      console.log('meals$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', meals);
-      let nutrients = apiResponse.body.nutrients;
-      let idArray = meals.map((meal)=> meal.id);
-      searchRecipe(idArray);
-      console.log('idArray $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', idArray);
-      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate, plan: plan})
+      let data = {};
+      data.meals = apiResponse.body.meals.map(mealResult => new Meal(mealResult));
+      // console.log('meals$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', data.meals);
+      data.nutrients = apiResponse.body.nutrients;
+      data.idArray = data.meals.map((meal)=> meal.id);
+      return data;
     })
 
-    .catch(err => handleError(err,response));
-
-}
-
-function searchRecipe(request, response){
-  // let id = sea
-  // for (let i = 0; i <= apiResponse.body.meals.length; i++){
-
-  superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/1003464/ingredientWidget.json')
-    .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
-    .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
-
-    .then(apiResponse => {
-      console.log('line107 apiresponse&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&' ,apiResponse.body);
-      let ingredient = apiResponse.body.ingredients.map(recResult => new Recipe(recResult));
-
-      console.log('line 110 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',ingredient);
-      //response.render('pages/my-dashboard', {ingredient: ingredient});
+    .then(result=> searchRecipe(result)
+    )
+    .then (result => {
+      // console.log('line 161 result[0]', result[0]);
+      console.log('line 162 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$result[1]', result[1]);
+      let userObj= result[1];
+      userObj.ingredients= result[0];
+      return userObj;
     })
+
+
+    .then(result => {
+      let {meals, nutrients, ingredients}= result;
+      // console.log(meals, nutrients, ingredients);
+      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate, plan: plan, ingredients: ingredients})
+    })
+    .catch(err => handleError(err));
+
 
 }
 
 
 
-// function Recipe(newRec){
-//   this.id = newRec.id;
-//   this.name = newRec.name;
-//   this.amount = newRec.amount;
-// }
+function saveMetricsToDB(request, response) {
+
+  
+
+  console.log('request.body line 255 ********', request.body);
+  let { age, height, sex, weight, getActivity, goal, loss} = request.body;
+
+  let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss) VALUES ($1, $2, $3, $4, $5, $6, $7);';
+  let values = [age, height, sex, weight, getActivity, goal, loss];
+
+  return client.query(SQL, values)
+
+    .then(searchNewMeals(request, response))
+    .catch(err => handleError(err, response))
+    
+
+
+}
+
+// { age: '56',
+//   height: '72',
+//   sex: 'male',
+//   weight: '222',
+//   getActivity: '1.2',
+//   goal: '180',
+//   loss: 'mild' }
+
+
+
+function Recipe(newRec){
+
+  this.name = newRec.name;
+  this.value = newRec.amount.us.value;
+  this.unit = newRec.amount.us.unit;
+}
+
 
 function Meal(newMeal) {
   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
@@ -267,7 +325,17 @@ function handleError(error, response) {
 
 
 // random food jokes
+function createJoke(request, response) {
+  superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/jokes/random')
+    .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
+    .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+    .then(apiResponse => {
+      console.log('apiResponse', apiResponse.body.text);
+      let joke = apiResponse.body.text
+      response.render('/index', {joke})
+    })
+}
 
-// superagent.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/jokes/random")
-// .set("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
-// .set("X-RapidAPI-Key", "509ec1d697msh56b7f8c3810108cp1de311jsne54bddc4d03d")
+
+
+
