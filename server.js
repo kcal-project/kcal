@@ -34,7 +34,7 @@ app.get('/join', showForm);
 app.post('/join', addUser);
 app.post('/', allowIn);
 
-app.post('/my-dashboard', saveMetricsToDB);
+app.post('/my-dashboard/:user_id', saveMetricsToDB);
 // app.post('/my-dashboard', saveMetricsToDB);
 
 // app.post('/', createJoke);
@@ -43,7 +43,7 @@ app.post('/my-dashboard', saveMetricsToDB);
 // app.get('/', search);
 
 
-app.post('/my-dashboard/:user_id', searchNewMeals);
+// app.post('/my-dashboard/:user_id', searchNewMeals);
 // app.post('/my-dashboard', searchRecipe);
 
 
@@ -229,7 +229,7 @@ function searchRecipe(data){
 }
 
 let searchNewMeals = function(request, response)  {
-  console.log('🤨line 214 ****************************************', request.body);
+  console.log('🤨line 232 ****************************************', request.body);
   let calories = getBmr(request, response);
   let projDate = goalDate(request, response);
   let plan = request.body.loss;
@@ -259,20 +259,19 @@ let searchNewMeals = function(request, response)  {
 
 
     .then(result => {
-      let {meals, nutrients, ingredients}= result;
+      console.log(request.params.user_id);
+      let {meals, nutrients, ingredients} = result;
       // console.log(meals, nutrients, ingredients);
-      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate, plan: plan, ingredients: ingredients})
+      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate, plan: plan, ingredients: ingredients, user_id: request.params.user_id})
     })
     .catch(err => handleError(err));
-
-
 }
 
 
 
 function saveMetricsToDB(request, response) {
 
-  
+  console.log("****************************************************");
 
   console.log('request.body line 255 ********', request.body);
   let { age, height, sex, weight, getActivity, goal, loss} = request.body;
