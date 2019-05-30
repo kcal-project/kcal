@@ -30,6 +30,33 @@ nav .active {
 
 h1 {
   text-align: center;
+  color: white;
+}
+
+.info-banner {
+  margin: 0 auto;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 50px 0px;
+  font-size: 30px;
+  color: white;
+}
+
+.login-container {
+  margin: 0 auto;
+  text-align: center;
+  color: orange;
+  margin-top: 25px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a:hover {
+  color: orange;
 }
 
 #joke {
@@ -46,10 +73,6 @@ em {
   font-size: 30px;
 }
 
-#join-link {
-  color: orange;
-}
-
 input {
   margin: 0 auto;
   background-color: lightgrey;
@@ -62,7 +85,7 @@ input {
 
 button {
   margin: 0 auto;
-  background-color: rgb(56, 56, 56);
+  background-color: #222222;
   width: 260px;
   padding: 7px 0px;
   color: white;
@@ -74,6 +97,7 @@ button {
 button:hover {
   background-color: orange;
   transition-delay: 150ms;
+  color: white;
 }
 
 main {
@@ -96,7 +120,7 @@ footer {
   width: 100%;
   display: table-row;
   text-align: center;
-  padding: 20px 0px;
+  padding: 5px 0px;
 }
 
 #intake-form {
@@ -104,4 +128,17 @@ footer {
   line-height: 2;
   width: 400px;
   margin: 0px auto;
+}
+
+.join-container {
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+  width: 400px;
+}
+
+#mail {
+  color: white;
+  font-size: 20px;
+  padding-top: 10px;
 }
