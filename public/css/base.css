@@ -7,6 +7,19 @@ body {
   font-family: 'Oswald', sans-serif;
 }
 
+header {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 2;
+}
+
+body {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
 nav li a:hover:not(.active) {
   background-color: rgb(97, 97, 97);
 }
@@ -89,6 +102,6 @@ footer {
 #intake-form {
   background: white;
   line-height: 2;
-  width: 480px;
+  width: 400px;
   margin: 0px auto;
 }

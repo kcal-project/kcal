@@ -46,12 +46,13 @@
   background-color: black;
   opacity: .8;
   line-height: 1.5;
-  width: 480px;
+  width: 400px;
   margin: 0 auto;
   text-align: center;
   align-content: center;
   color: white;
   padding: 25px 0px 50px 0px;
+  margin-bottom: 300px;
 }
 
 #login-page {
