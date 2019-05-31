@@ -14,7 +14,8 @@
   <button type="button" class="showButton" form="hiddenForm" name="hiddenForm" >Update Plan</button>
     
   <section>
-      <form  action="/my-dashboard" method="post" id="hiddenForm" class="form">
+      <form  action="/my-dashboard<%= user_id %>" method="post" id="hiddenForm" class="form">
+        <% console.log(user_id) %>
       <label for="getAge">Age: </label>
       <input type="text" class="form-control" id="getAge" placeholder="Years" name="age">
       <p></p>
