@@ -3,63 +3,74 @@
   <%- include('../layouts/head') %>
 <body>
   <%- include('../layouts/header') %>
-  
-    <main>
 
-      
-      <div id="intake-form">
-          <h1>Please enter your personal stats and goals</h1>
-        <form action="/my-dashboard/<%= user_id %>" method="post">
-          <label for="getAge">Age: </label>
-          <input type="text" class="form-control" id="getAge" placeholder="Years" name="age">
-          <p></p>
+  <body id="intake-page">
+    <%- include('../layouts/header') %>
+      <main>
+        <h1 class="info-banner">Please enter your personal stats and goals</h1>
 
-          <label for="getHeight">Height: </label>
-          <input type="text" class="form-control" id="getHeight" placeholder="Inches" name="height">
-          <p></p>
+        <div id="intake-div">
+          <form id="intake-form" action="/my-dashboard/<%= user_id %>" method="post">
 
-          <label for="male">Male</label>
-          <input type="radio" name="sex" id="male" value="male" />
-          <label for="female">Female </label>
-          <input type="radio" name="sex" id="female" value="female" />
-          <p></p>
 
-          <label for="getWeight">Weight: </label>
-          <input type="text" class="form-control" id="getWeight" placeholder="Pounds" name="weight">
-          <p></p>
+            <div id="sex">
+              <label for="male">Male</label>
+              <input type="radio" name="sex" id="male" value="male" />
+              <label for="female">Female </label>
+              <input type="radio" name="sex" id="female" value="female" />
+            </div>
+            <div id="stats">
+              <div id="age">
+                <label for="getAge">Age: </label>
+                <input type="text" class="form-control" id="getAge" placeholder="Years" name="age">
+              </div>
 
-          <p>
-            <label for="getActivity">Daily Activity:</label>
-            <select name="getActivity" id="getActivity">
-              <option value="1.2">Sedentary (little or no exercise)</option>
-              <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
-              <option value="1.55">Moderately active (moderate exercise 3-5 days/week)</option>
-              <option value="1.725">Very active (hard exercise 6-7 days a week)</option>
-              <option value="1.9">Extremely active (extreme exercise & physical job)</option>
-            </select>
-          </p>
-          <label for="getGoal">Enter Your Goal Weight: </label>
-          <input type="text" class="form-control" id="getGoal" placeholder="Pounds" name="goal">
+              <div id="height">
+                <label for="getHeight">Height: </label>
+                <input type="text" class="form-control" id="getHeight" placeholder="Inches" name="height">
+              </div>
 
-          <p></p>
-          <p>How Fast Would You Like To Lose Weight?</p>
-          <label for="mild">Mild</label>
-          <input type="radio" name="loss" id="mild" value="mild" />
-          <label for="moderate">Moderate</label>
-          <input type="radio" name="loss" id="moderate" value="moderate" />
-          <label for="extreme">Extreme</label>
-          <input type="radio" name="loss" id="extreme" value="extreme" />
-          <p></p>
+              <div id="weight">
+                <label for="getWeight">Weight: </label>
+                <input type="text" class="form-control" id="getWeight" placeholder="Pounds" name="weight">
+              </div>
 
-          <button class="btn" type="submit" id="button1"> Generate Plan</button>
+              <div id="goal">
+                <label for="getGoal">Goal Weight: </label>
+                <input type="text" class="form-control" id="getGoal" placeholder="Pounds" name="goal">
+              </div>
+            </div>
+
+            <div id="activity">
+              <label class="capitalize" for="getActivity">What Is Your Daily Activity?</label>
+              <select name="getActivity" id="getActivity">
+                <option value="1.2">Sedentary (little or no exercise)</option>
+                <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
+                <option value="1.55">Moderately active (moderate exercise 3-5 days/week)</option>
+                <option value="1.725">Very active (hard exercise 6-7 days a week)</option>
+                <option value="1.9">Extremely active (extreme exercise & physical job)</option>
+              </select>
+            </div>
+
+            <div id="weight-loss-speed">
+              <p class="capitalize">How Fast Would You Like To Lose Weight?</p>
+              <label for="mild">Mild</label>
+              <input type="radio" name="loss" id="mild" value="mild" />
+              <label for="moderate">Moderate</label>
+              <input type="radio" name="loss" id="moderate" value="moderate" />
+              <label for="extreme">Extreme</label>
+              <input type="radio" name="loss" id="extreme" value="extreme" />
+            </div>
+
+            <button class="btn" type="submit" id="intake-button"> Generate Plan</button>
+          </form>
         </div>
-      </form>
 
 
-    </main>
+      </main>
 
-    <%- include('../layouts/footer') %>
+      <%- include('../layouts/footer') %>
 
-</body>
+  </body>
 
 </html>

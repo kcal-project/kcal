@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
   <%- include('../layouts/head') %>
-<body>
+<body id="dashboard-page">
   <%- include('../layouts/header') %>
   <main>
     
     
+
     
     <p>You have selected the <%= plan %> diet plan!</p>
     <p>You will reach your goal weight around <%= projDate %></p>
@@ -15,9 +16,11 @@
     
     <section>
       <form  action="/my-dashboard<%= user_id %>" method="post" id="hiddenForm" class="form">
+
         <% console.log(user_id) %>
+      <input type="hidden" name="_method" value="PUT">
       <label for="getAge">Age: </label>
-      <input type="text" class="form-control" id="getAge" placeholder="Years" name="age">
+      <input type="text"class="form-control" id="getAge" placeholder="Years" name="age">
       <p></p>
   
       <label for="getHeight">Height: </label>
@@ -82,6 +85,9 @@
         </div>
         <%  %>
   
+  <br>
+  <br>
+
 
       <ul>
         <% meals.forEach(meal => { %>
@@ -89,9 +95,11 @@
           <li class=""><img src='<%= meal.image %>' /></li>
           <li class="">Meal Name: <%= meal.title %></li>
           <li class="">Time to Prepare: <%= meal.readyInMinutes %> minutes</li>
+
       
           </div>
         <% }); %>
+
 
         <% ingredients.forEach(ingr => { %>
           <div>
@@ -104,11 +112,13 @@
           </div>
         <% }); %> 
 
+
       </ul>
 
       <button class="" type="submit" id="" >Save Plan</button>
       </form>
     </section>
+
 
 
   </main>
