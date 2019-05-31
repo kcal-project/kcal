@@ -51,16 +51,10 @@ app.get('*', (req, res) => res.status(404).send('This route does not exist'));
 
 // app.post('/my-dashboard', saveMetricsToDB);
 
-// app.post('/saved-menus',saveMealPlanToDB);
-
-
-
-// app.get('/', search);
-
+app.post('/saved-menus/:user_id',saveMealPlanToDB);
 
 // app.post('/my-dashboard/:user_id', searchNewMeals);
 // app.post('/my-dashboard', searchRecipe);
-
 
 //app.post('/my-dashboard', searchNewMeals);
 
@@ -253,7 +247,7 @@ function searchRecipe(data){
 let searchNewMeals = function(request, response) {
   console.log('🤨line 232 ****************************************', request.body);
 
-
+  let metrics = request.body
   let calories = getBmr(request, response);
   let projDate = goalDate(request, response);
   let plan = request.body.loss;
@@ -287,7 +281,7 @@ let searchNewMeals = function(request, response) {
       // userObj = result
       let {meals, nutrients, ingredients} = result;
       // console.log(meals, nutrients, ingredients);
-      response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate, plan: plan, ingredients: ingredients, user_id: request.params.user_id})
+      response.render('pages/my-dashboard', {metrics: metrics, meals: meals, nutrients: nutrients, projDate: projDate, plan: plan, ingredients: ingredients, user_id: request.params.user_id})
     })
     .catch(err => handleError(err));
 }
@@ -314,21 +308,21 @@ function saveMetricsToDB(request, response) {
 }
 
 
-// function saveMealPlanToDB(request, response) {
+function saveMealPlanToDB(request, response) {
 
-  
+  console.log('😄😄', userObj);
+  let { age, height, sex, weight, getActivity, goal, loss} = request.body;
 
-//   console.log('😄😄', userObj);
-//   let { age, height, sex, weight, getActivity, goal, loss} = request.body;
+  let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss) VALUES ($1, $2, $3, $4, $5, $6, $7);';
+  let values = [age, height, sex, weight, getActivity, goal, loss];
 
-//   let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss) VALUES ($1, $2, $3, $4, $5, $6, $7);';
-//   let values = [age, height, sex, weight, getActivity, goal, loss];
+  return client.query(SQL, values)
 
-//   return client.query(SQL, values)
-
-//     .then(searchNewMeals(request, response))
-//     .catch(err => handleError(err, response))
+    .then(searchNewMeals(request, response))
+    .catch(err => handleError(err, response))
     
+}
+
 
 function updateMetrics(request, response) {
   console.log(request.params.user_id);
