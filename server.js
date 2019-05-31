@@ -24,7 +24,7 @@ app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 
 // Routes
-
+app.get('/', createJoke);
 // app.get('/', getMealsFromDB);
 // app.get('/', formIntake);
 app.get('/about', aboutUs);
@@ -37,7 +37,7 @@ app.post('/', allowIn);
 app.post('/my-dashboard/:user_id', saveMetricsToDB);
 // app.post('/my-dashboard', saveMetricsToDB);
 
-// app.post('/', createJoke);
+
 
 
 // app.get('/', search);
@@ -329,9 +329,9 @@ function createJoke(request, response) {
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
     .then(apiResponse => {
-      console.log('apiResponse', apiResponse.body.text);
+      console.log('332😒 apiResponse', apiResponse.body.text);
       let joke = apiResponse.body.text
-      response.render('/index', {joke})
+      response.render('pages/index', {joke: joke})
     })
 }
 

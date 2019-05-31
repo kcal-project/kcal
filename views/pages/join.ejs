@@ -3,10 +3,20 @@
 <head>
   <%- include('../layouts/head') %>
 </head>
-<body>
-
-  <%- include('../layouts/header') %>
-  <h1>Create an Account</h1>
+<body id="join-page">
+    <header>
+        <div class="topnav">
+            <a href="/" class="active">KCAL</a>
+            <div id="myLinks">
+              <a href="/about">About</a>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="renderMenuIcon()">
+                <i class="fa fa-bars"></i>
+            </a>
+          </div>
+    </header>
+  <div id="create-account-container">
+    <h1 class="info-banner"> Create an Account</h1>
 
   <div class="join-container">
     <form class="form-signup" action="/join" method="post">
@@ -19,6 +29,7 @@
   <div class="login-container">
     <a href="/">Login</a>
   </div>
+</div>
   <%- include('../layouts/footer') %>
 </body>
 </html>
