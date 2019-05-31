@@ -51,7 +51,7 @@ app.get('*', (req, res) => res.status(404).send('This route does not exist'));
 
 // app.post('/my-dashboard', saveMetricsToDB);
 
-
+app.post('/saved-menus',saveMealPlanToDB);
 
 
 
@@ -227,24 +227,32 @@ function goalDate(request){
 
 function searchRecipe(data){
   // console.log('line 123 ######################################### data', data.idArray);
-  // for (let i = 0; i <= apiResponse.body.meals.length; i++){
 
-  return superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/1003464/ingredientWidget.json')
-    .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
-    .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+  let id = data.idArray;
 
-    .then(apiResponse => {
 
-      let ingredients = apiResponse.body.ingredients.map(recResult => new Recipe(recResult));
+  for (let i = 0; i <= id.length; i++){
 
-      // console.log('line 134 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',ingredients);
-      return [ingredients, data];
-    })
+    return superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${id[i]}/ingredientWidget.json`)
+      .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
+      .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
+
+      .then(apiResponse => {
+
+        let ingredients = apiResponse.body.ingredients.map(recResult => new Recipe(recResult));
+
+        // console.log('line 134 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',ingredients, data);
+        return [ingredients, data];
+      })
+
+  }
 
 }
 
+
 let searchNewMeals = function(request, response) {
   console.log('🤨line 232 ****************************************', request.body);
+
 
   let calories = getBmr(request, response);
   let projDate = goalDate(request, response);
@@ -267,7 +275,7 @@ let searchNewMeals = function(request, response) {
     )
     .then (result => {
       // console.log('line 161 result[0]', result[0]);
-      // console.log('line 162 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$result[1]', result[1]);
+
       let userObj= result[1];
       userObj.ingredients= result[0];
       return userObj;
@@ -275,7 +283,8 @@ let searchNewMeals = function(request, response) {
 
 
     .then(result => {
-      console.log(request.params.user_id);
+      console.log('****************************************',result);
+      userObj = result
       let {meals, nutrients, ingredients} = result;
       // console.log(meals, nutrients, ingredients);
       response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate, plan: plan, ingredients: ingredients, user_id: request.params.user_id})
@@ -287,6 +296,7 @@ let searchNewMeals = function(request, response) {
 
 function saveMetricsToDB(request, response) {
 
+
   // console.log('request.body line 255 ********', request.body);
   let { age, height, sex, weight, getActivity, goal, loss} = request.body;
 
@@ -296,11 +306,29 @@ function saveMetricsToDB(request, response) {
   return client.query(SQL, values)
 
     .then(searchNewMeals(request, response))
+    
     .catch(err => handleError(err, response))
 
 
 
 }
+
+
+// function saveMealPlanToDB(request, response) {
+
+  
+
+//   console.log('😄😄', userObj);
+//   let { age, height, sex, weight, getActivity, goal, loss} = request.body;
+
+//   let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss) VALUES ($1, $2, $3, $4, $5, $6, $7);';
+//   let values = [age, height, sex, weight, getActivity, goal, loss];
+
+//   return client.query(SQL, values)
+
+//     .then(searchNewMeals(request, response))
+//     .catch(err => handleError(err, response))
+    
 
 function updateMetrics(request, response) {
   console.log(request.params.user_id);
@@ -319,6 +347,8 @@ function updateMetrics(request, response) {
 
 
 }
+
+
 
 
 
