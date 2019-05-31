@@ -12,7 +12,6 @@ CREATE TABLE users (
 );
 
 
-
 CREATE TABLE metrics (
   id SERIAL PRIMARY KEY,
   age VARCHAR(255),
@@ -25,25 +24,20 @@ CREATE TABLE metrics (
   -- FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
--- CREATE TABLE meals (
---   id SERIAL PRIMARY KEY,
---   daily_caloric_goal VARCHAR(255),
---   meal_title VARCHAR(255),
---   ready_in VARCHAR(255),
---   serving_size VARCHAR(255),
---   meal_image VARCHAR(255),
---   nutrients VARCHAR(255),
---   FOREIGN KEY (user_id) REFERENCES users (id)
--- );
+CREATE TABLE meals (
+  id SERIAL PRIMARY KEY,
+  calories VARCHAR(255),
+  protein VARCHAR(255),
+  fat VARCHAR(255),
+  carbohydrates VARCHAR(255),
+  image VARCHAR(255),
+  title VARCHAR(255),
+  readyInMinutes VARCHAR(255),
+  name VARCHAR(255),
+  value VARCHAR(255),
+  unit VARCHAR(255)
+  -- FOREIGN KEY (user_id) REFERENCES users (id)
+);
 
--- CREATE TABLE recipes (
---   id SERIAL PRIMARY KEY,
---   daily_caloric_goal VARCHAR(255),
---   meal_title VARCHAR(255),
---   ready_in VARCHAR(255),
---   serving_size VARCHAR(255),
---   meal_image VARCHAR(255),
---   nutrients VARCHAR(255),
---   FOREIGN KEY (meal_id) REFERENCES meals (id)
--- );
+
 
