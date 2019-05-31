@@ -130,7 +130,7 @@ function allowIn(request, response) {
         response.render('pages/intake-form', {user_id: user_id});
         // console.log('success 😀')
       } else {
-        response.render('pages/index' );
+        response.render('pages/join' );
         // console.log('this route failed 😭😢');
       }
     })
@@ -347,10 +347,6 @@ function updateMetrics(request, response) {
 
 
 }
-
-
-
-
 
 
 
