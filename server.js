@@ -44,7 +44,11 @@ app.post('/join', addUser);
 app.post('/', allowIn);
 
 app.post('/my-dashboard/:user_id', saveMetricsToDB);
+
 app.put('/my-dashboard/:user_id', updateMetrics);
+
+app.get('*', (req, res) => res.status(404).send('This route does not exist'));
+
 // app.post('/my-dashboard', saveMetricsToDB);
 
 
@@ -239,8 +243,9 @@ function searchRecipe(data){
 
 }
 
-let searchNewMeals = function(request, response)  {
-  // console.log('🤨line 232 ****************************************', request.body);
+let searchNewMeals = function(request, response) {
+  console.log('🤨line 232 ****************************************', request.body);
+
   let calories = getBmr(request, response);
   let projDate = goalDate(request, response);
   let plan = request.body.loss;
@@ -282,8 +287,6 @@ let searchNewMeals = function(request, response)  {
 
 function saveMetricsToDB(request, response) {
 
-  // console.log("****************************************************");
-
   // console.log('request.body line 255 ********', request.body);
   let { age, height, sex, weight, getActivity, goal, loss} = request.body;
 
@@ -294,7 +297,7 @@ function saveMetricsToDB(request, response) {
 
     .then(searchNewMeals(request, response))
     .catch(err => handleError(err, response))
-    
+
 
 
 }
@@ -342,7 +345,7 @@ function Meal(newMeal) {
 function handleError(error, response) {
   console.log(error);
   console.log('response', response);
-  if (response) response.render('pages/error', { error: 'Something went wrong....  Try again!' });
+  response.render('pages/error', { error: 'Something went wrong....  Try again!' });
 }
 
 
@@ -355,10 +358,6 @@ function createJoke(request, response) {
       console.log('332😒 apiResponse', apiResponse.body.text);
       let joke = apiResponse.body.text
       response.render('pages/index', {joke: joke})
+        .catch(err => handleError(err, response))
     })
 }
-
-
-
-
-
