@@ -51,7 +51,7 @@ app.get('*', (req, res) => res.status(404).send('This route does not exist'));
 
 // app.post('/my-dashboard', saveMetricsToDB);
 
-app.post('/saved-menus',saveMealPlanToDB);
+// app.post('/saved-menus',saveMealPlanToDB);
 
 
 
@@ -284,7 +284,7 @@ let searchNewMeals = function(request, response) {
 
     .then(result => {
       console.log('****************************************',result);
-      userObj = result
+      // userObj = result
       let {meals, nutrients, ingredients} = result;
       // console.log(meals, nutrients, ingredients);
       response.render('pages/my-dashboard', {meals: meals, nutrients: nutrients, projDate: projDate, plan: plan, ingredients: ingredients, user_id: request.params.user_id})
@@ -388,6 +388,7 @@ function createJoke(request, response) {
       console.log('332😒 apiResponse', apiResponse.body.text);
       let joke = apiResponse.body.text
       response.render('pages/index', {joke: joke})
-        .catch(err => handleError(err, response))
+        
     })
+    .catch(err => handleError(err, response))
 }
