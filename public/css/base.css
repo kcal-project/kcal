@@ -129,12 +129,11 @@ button {
   text-transform: uppercase;
   font-size: 15px;
   border: none;
-  margin: 20px 0px; 
 }
 
 button:hover {
   background-color: rgb(255, 166, 0);
-  transition-delay: 150ms;
+  transition-delay: 100ms;
   color: white;
 }
 
@@ -142,11 +141,29 @@ main {
   width: 100%;
 }
 
-img {
+.meals {
+  width: 400px;
+  background: #222222;
+  opacity: .9;
+  color: white;
+  text-align: center;
+  margin: 0 auto;
+  padding: 10px 10px;
+  height: 325px;
+}
+
+#meals-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.meals img {
   object-fit: contain;
   width: 250px;
   height: 250px;
-  background: white;
+  background: #222222;
+  margin-bottom: 10px;
 }
 
 footer {
@@ -170,6 +187,10 @@ footer {
   text-align: center;
   color: white;
   padding: 20px 0px;
+}
+
+#intake-button {
+  margin: 20px 0px;
 }
 
 #stats input{
@@ -278,7 +299,7 @@ footer {
   align-content: center;
   color: white;
   padding: 25px 0px 50px 0px;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
 }
 
 #login-page {
@@ -307,6 +328,14 @@ footer {
 
 #intake-page {
   background-image: url("../images/succulent.jpeg"); no-repeat center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#dashboard-page {
+  background-image: url("../images/wheat.jpeg"); no-repeat center fixed; opacity .8;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

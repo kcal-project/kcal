@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
   <%- include('../layouts/head') %>
-<body>
+<body id="dashboard-page">
   <%- include('../layouts/header') %>
   <main>
     
     
-    
-  <p>You have selected the <%= plan %> diet plan!</p>
-  <p>You will reach your goal weight around <%= projDate %></p>
-  <p>We have generated your meal plan for the day according to your current body metrics and diet plan.</p>
-  <p>Every 7 days update your new weight to adjust your meal plan, and feel free to change your diet plan to slow or fast-track your results.</p>
+    <div id="form-results">
+        <p>You have selected the <%= plan %> diet plan!</p>
+        <p>You will reach your goal weight around <%= projDate %></p>
+        <p>We have generated your meal plan for the day according to your current body metrics and diet plan.</p>
+        <p>Every 7 days update your new weight to adjust your meal plan, and feel free to change your diet plan to slow or fast-track your results.</p>
+    </div>
+
   <button type="button" class="showButton" form="hiddenForm" name="hiddenForm" >Update Plan</button>
     
   <section>
@@ -74,30 +76,39 @@
     </div>
   <%  %>
   
+  <br>
+  <br>
 
-  <ul>
+  <ul id="meals-container">
     <% meals.forEach(meal => { %>
-      <div>
-      <li class=""><img src='<%= meal.image %>' /></li>
+      <div class="meals">
+      <li class="img"><img src='<%= meal.image %>' /></li>
       <li class="">Meal Name: <%= meal.title %></li>
       <li class="">Time to Prepare: <%= meal.readyInMinutes %> minutes</li>
       
       </div>
     <% }); %>
 
-    <% ingredients.forEach(ingr => { %>
-       <div>
-        
-       <li class="">Ingredient <%= ingr.name %></li>
-       <li class="">Amount: <%= ingr.value %></li>
-       <li class=""><%= ingr.unit %></li>
-       
-        
-       </div>
-    <% }); %> 
-
-
+    <br>
+    <br>
   </ul>
+
+  <ul>
+      <% ingredients.forEach(ingr => { %>
+        <div >
+         
+        <li class="">Ingredient <%= ingr.name %></li>
+        <li class="">Amount: <%= ingr.value %></li>
+        <li class=""><%= ingr.unit %></li>
+        
+         
+        </div>
+     <% }); %> 
+  </ul>
+ 
+
+
+ 
 
   <button class="saveBtn" type="submit" id="button2"  onclick="location.href='/saved-menus/<%= meals.id %>';" >Save Plan</button>
 </main>
