@@ -16,3 +16,7 @@ function renderMenuIcon() {
     x.style.display = "block";
   }
 }
+
+$('button.loginButton').click( function() {
+  $('form.save').submit();
+});

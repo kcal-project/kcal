@@ -101,61 +101,43 @@
         <li class="">Ingredient <%= ingr.name %></li>
         <li class="">Amount: <%= ingr.value %></li>
         <li class=""><%= ingr.unit %></li>
-        
-         
+  
         </div>
      <% }); %> 
   </ul>
 
   <section>
-
-      <form  action="/saved-menus/<%= user_id %>" method="post" id="hiddenForm" class="">
-        <% nutrients  %>
-        <div>
-          <li class="">Combined Meal Calories: <%= nutrients.calories %></li>
-          <li class="">Combined Meal Protein: <%= nutrients.protein %></li>
-          <li class="">Combined Meal Fat: <%= nutrients.fat %></li>
-          <li class="">Combined Meal carbohydrates: <%= nutrients.carbohydrates %></li>
-        </div>
-        <%  %>
-  
-      <ul>
-        <% meals.forEach(meal => { %>
-          <div>
-          <li class=""><img src='<%= meal.image %>' /></li>
-          <li class="">Meal Name: <%= meal.title %></li>
-          <li class="">Time to Prepare: <%= meal.readyInMinutes %> minutes</li>
-  
       
-          </div>
+
+      <form  action="/saved-menus/<%= user_id %>" method="post" id="" class="save">
+        
+        <% nutrients  %>
+          <input type="text" value="<%= nutrients.calories %>">
+          <input type="text" value="<%= nutrients.protein %>">
+          <input type="text" value="<%= nutrients.fat %>">
+          <input type="text" value="<%= nutrients.carbohydrates %>">   
+        <%  %>
+        <% meals.forEach(meal => { %>
+          <input type="text" value="<%= meal.image %>">
+          <input type="text" value="<%= meal.title %>">
+          <input type="text" value="<%= meal.readyInMinutes %>">
         <% }); %>
-  
-  
         <% ingredients.forEach(ingr => { %>
-          <div>
-        
-          <li class="">Ingredient <%= ingr.name %></li>
-          <li class="">Amount: <%= ingr.value %></li>
-          <li class=""><%= ingr.unit %></li>
-       
-        
-          </div>
+          <input type="text" value="<%= ingr.name %>">
+          <input type="text" value="<%= ingr.value %>">
+          <input type="text" value="<%= ingr.unit %>">
         <% }); %> 
-  
-  
-      </ul>
-  
-      <button class="" type="submit" id="" >Save Plan</button>
+
+      <button class="btn btn-primary loginButton" type="submit" id="" >Save Plan</button>
       </form>
     </section>
-
-
 
   </main>
   <%- include('../layouts/footer') %>
 </body>
 
 </html>
+
 
 
 

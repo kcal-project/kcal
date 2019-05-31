@@ -49,7 +49,7 @@ app.put('/my-dashboard/:user_id', updateMetrics);
 
 app.get('*', (req, res) => res.status(404).send('This route does not exist'));
 
-// app.post('/my-dashboard', saveMetricsToDB);
+
 
 app.post('/saved-menus/:user_id',saveMealPlanToDB);
 
@@ -300,7 +300,7 @@ function saveMetricsToDB(request, response) {
   return client.query(SQL, values)
 
     .then(searchNewMeals(request, response))
-    
+
     .catch(err => handleError(err, response))
 
 
@@ -309,19 +309,25 @@ function saveMetricsToDB(request, response) {
 
 
 function saveMealPlanToDB(request, response) {
+  console.log('line 312😄' , request.body);
+  let { calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit } = request.body;
 
-  console.log('😄😄', userObj);
-  let { age, height, sex, weight, getActivity, goal, loss} = request.body;
-
-  let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss) VALUES ($1, $2, $3, $4, $5, $6, $7);';
-  let values = [age, height, sex, weight, getActivity, goal, loss];
+  const SQL = 'INSERT INTO meals (calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);';
+  const values = [calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit];
 
   return client.query(SQL, values)
-
-    .then(searchNewMeals(request, response))
-    .catch(err => handleError(err, response))
-    
+    .then(() => {
+      const SQL = 'SELECT id FROM meals WHERE title=$1;'
+      const values = [request.body.title];
+      return client.query(SQL, values)
+        .then(result => {
+          response.render('pages/saved-menus', {result: result})
+        })
+        .catch(error => handleError(error, response));
+    })
+    .catch(error => handleError(error, response));
 }
+
 
 
 function updateMetrics(request, response) {
@@ -365,7 +371,7 @@ function Meal(newMeal) {
 function handleError(error, response) {
   console.log(error);
   console.log('response', response);
-  response.render('pages/error', { error: 'Something went wrong....  Try again!' });
+  response.render('pages/error', { error: error });
 }
 
 
@@ -378,7 +384,7 @@ function createJoke(request, response) {
       console.log('332😒 apiResponse', apiResponse.body.text);
       let joke = apiResponse.body.text
       response.render('pages/index', {joke: joke})
-        
+
     })
     .catch(err => handleError(err, response))
 }
