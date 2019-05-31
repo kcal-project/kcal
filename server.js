@@ -3,11 +3,11 @@
 require('dotenv').config();
 
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
 const superagent = require('superagent'); // Not Need?  Still researching
-const unirest = require('unirest');// https request client library like superagent  -- neede for rapid api
+// const unirest = require('unirest');// https request client library like superagent  -- neede for rapid api
 const pg = require('pg');
-const ejs = require('ejs');
+require('ejs');
 const methodOverride = require('method-override');
 
 const app = express();
@@ -21,6 +21,15 @@ client.on('error', err => console.log(err));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
+app.use(methodOverride(function (request) {
+  console.log(request.body);
+  console.log('😎😎😎😎😎 inside method override');
+  if (request.body && typeof request.body === 'object' && '_method' in request.body) {
+    let method = request.body._method;
+    delete request.body._method;
+    return method;
+  }
+}));
 app.set('view engine', 'ejs');
 
 // Routes
@@ -35,8 +44,13 @@ app.post('/join', addUser);
 app.post('/', allowIn);
 
 app.post('/my-dashboard/:user_id', saveMetricsToDB);
+
+app.put('/my-dashboard/:user_id', updateMetrics);
+
 app.get('*', (req, res) => res.status(404).send('This route does not exist'));
+
 // app.post('/my-dashboard', saveMetricsToDB);
+
 
 
 
@@ -74,7 +88,7 @@ function addUser(request, response) {
     .then(results => {
       if(results.rows.length > 0) {
         response.render('pages/join');
-        console.log('this username exist!!!')
+        // console.log('this username exist!!!')
       } else {
         let SQL = 'INSERT INTO users (firstname, lastname, username) VALUES ($1, $2, $3);';
         let values = [firstname, lastname, username];
@@ -99,7 +113,7 @@ function getLogIn(request, response) {
 }
 
 function allowIn(request, response) {
-  console.log(process.env.DATABASE_URL);
+  // console.log(process.env.DATABASE_URL);
   let {username} = request.body;
 
   let checkForUser = 'SELECT * FROM users WHERE username = $1;';
@@ -107,17 +121,17 @@ function allowIn(request, response) {
 
   client.query(checkForUser, value)
     .then(results => {
-      console.log(results);
+      // console.log(results);
       if(results.rowCount !== 0 && results.rows[0].username === username) {
         const user_id = results.rows[0].id;
 
-        console.log('This is the user ID !!!!! 🆔🆔🆔🆔🆔🆔🆔 = ', user_id)
+        // console.log('This is the user ID !!!!! 🆔🆔🆔🆔🆔🆔🆔 = ', user_id)
 
         response.render('pages/intake-form', {user_id: user_id});
-        console.log('success 😀')
+        // console.log('success 😀')
       } else {
         response.render('pages/index' );
-        console.log('this route failed 😭😢');
+        // console.log('this route failed 😭😢');
       }
     })
     .catch(error => handleError(error, response))
@@ -134,7 +148,7 @@ function aboutUs(request, response) {
   response.render('pages/about');
 }
 
-function getBmr(request, response){
+function getBmr(request){
   let height = request.body.height;
   let weight = request.body.weight;
   let age =  request.body.age;
@@ -162,7 +176,7 @@ function getBmr(request, response){
   }
 }
 
-function goalDate(request, response){
+function goalDate(request){
   let today = new Date();
   let loss = request.body.loss;
   let weight = request.body.weight;
@@ -207,12 +221,12 @@ function goalDate(request, response){
   }
 }
 
-function formIntake(request, response) {
-  response.render('pages/intake-form');
-}
+// function formIntake(request, response) {
+//   response.render('pages/intake-form');
+// }
 
 function searchRecipe(data){
-  console.log('line 123 ######################################### data', data.idArray);
+  // console.log('line 123 ######################################### data', data.idArray);
   // for (let i = 0; i <= apiResponse.body.meals.length; i++){
 
   return superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/1003464/ingredientWidget.json')
@@ -231,11 +245,12 @@ function searchRecipe(data){
 
 let searchNewMeals = function(request, response) {
   console.log('🤨line 232 ****************************************', request.body);
+
   let calories = getBmr(request, response);
   let projDate = goalDate(request, response);
   let plan = request.body.loss;
 
-  let userData = superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=${calories}&timeFrame=day`)
+  superagent.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=${calories}&timeFrame=day`)
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
 
@@ -252,7 +267,7 @@ let searchNewMeals = function(request, response) {
     )
     .then (result => {
       // console.log('line 161 result[0]', result[0]);
-      console.log('line 162 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$result[1]', result[1]);
+      // console.log('line 162 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$result[1]', result[1]);
       let userObj= result[1];
       userObj.ingredients= result[0];
       return userObj;
@@ -272,9 +287,7 @@ let searchNewMeals = function(request, response) {
 
 function saveMetricsToDB(request, response) {
 
-  console.log('****************************************************');
-
-  console.log('request.body line 255 ********', request.body);
+  // console.log('request.body line 255 ********', request.body);
   let { age, height, sex, weight, getActivity, goal, loss} = request.body;
 
   let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss) VALUES ($1, $2, $3, $4, $5, $6, $7);';
@@ -289,13 +302,25 @@ function saveMetricsToDB(request, response) {
 
 }
 
-// { age: '56',
-//   height: '72',
-//   sex: 'male',
-//   weight: '222',
-//   getActivity: '1.2',
-//   goal: '180',
-//   loss: 'mild' }
+function updateMetrics(request, response) {
+  console.log(request.params.user_id);
+
+  let { age, height, sex, weight, getActivity, goal, loss } = request.body;
+  console.log('Inside  my update function 😎😎😎');
+  console.log(request.body);
+
+  let SQL = `UPDATE metrics SET age=$1, height=$2, sex=$3, weight=$4, getActivity=$5, goal=$6, loss=$7 WHERE id=$8;`;
+
+  let updates = [age, height, sex, weight, getActivity, goal, loss, request.params.user_id];
+
+  client.query(SQL, updates)
+    .then(searchNewMeals(request, response))
+    .catch(err => handleError(err, response));
+
+
+}
+
+
 
 
 
