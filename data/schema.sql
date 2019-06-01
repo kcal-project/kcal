@@ -21,7 +21,8 @@ CREATE TABLE metrics (
   getActivity VARCHAR(255),
   goal VARCHAR(255),
   loss VARCHAR(255)
-  -- FOREIGN KEY (user_id) REFERENCES users (id)
+  -- users_id INTEGER NOT NULL,
+  -- FOREIGN KEY (users_id) REFERENCES users (id)
 );
 
 CREATE TABLE meals (
@@ -30,13 +31,14 @@ CREATE TABLE meals (
   protein VARCHAR(255),
   fat VARCHAR(255),
   carbohydrates VARCHAR(255),
-  image VARCHAR(255),
+  image VARCHAR(800),
   title VARCHAR(255),
   readyInMinutes VARCHAR(255),
   name VARCHAR(255),
   value VARCHAR(255),
   unit VARCHAR(255)
-  -- FOREIGN KEY (user_id) REFERENCES users (id)
+  -- users_id INTEGER NOT NULL,
+  -- FOREIGN KEY (users_id) REFERENCES users (id)
 );
 
 
