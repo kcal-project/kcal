@@ -17,6 +17,7 @@
   color: white;
   text-shadow: 2px 2px 4px black;
 }
+
 .team {
   padding: 20px 10px;
   width: 300px;
@@ -46,6 +47,7 @@
   text-transform: uppercase;
   font-size: 20px;
 }
+
 #create-account-container {
   width: 400px;
   background-color: #000000;
@@ -53,23 +55,28 @@
   padding: 5px 0px 50px 0px;
   margin: 0 auto;
 }
+
 #male {
   margin-right: 7px;
 }
+
 #activity , #weight-loss-speed {
   margin-top: 10px;
 }
+
 #activity {
   margin-left: 5px;
   margin-right: 5px;
 }
+
 #selected {
   margin: 0 auto;
   color: white;
   margin-bottom: 50px;
   text-align: center;
   font-size: 18px;
-  
+  line-height: 1.5;
+  padding: 0 30px;
 }
 
 #h1-selected {
@@ -81,6 +88,7 @@
   color: white;
   text-shadow: 2px 2px 4px black;
 }
+
 #update-button {
   margin-top: 10px;
 }
@@ -92,40 +100,41 @@
   text-align: center;
   font-size: 18px;
 }
+
 .diet-values{
   margin-top: 3px;
   font-size: 21px;
   text-shadow: 2px 2px 4px black;
 }
+
 #combined {
   margin-top: 5px;
   margin-bottom: 8px;
 }
+
 #meals-container {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
+
 .meals {
   margin-bottom: 17px;
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
 }
+
 .meals img {
   border-top-right-radius: 8px;
   border-bottom-left-radius: 8px;
-  /* object-fit: contain; */
+  object-fit: cover;
   width: 250px;
   height: 250px;
   background: #222222;
   margin-bottom: 10px;
   margin-top: 10px;
-  
 }
-/* .ingredient {
-  object-fit: contain;
-  height: 25px;
-} */
+
 #intake-button {
   margin: 20px 0px;
 }
@@ -137,29 +146,4 @@
 #stats label {
   position: absolute;
 }
-/* .team {
-  padding: 20px 10px;
-  width: 300px;
-  text-align: center;
-  margin: 30px 0px;
-  height: 400px;
-  line-height: 1;
-  background-color: rgb(0, 0, 0);
-  opacity: .8;
-  color: white;
-  align-items: center;
-  border-radius: 10px;
-  box-shadow: 1px 1px 2px orange;
-}
 
-.team img {
-  border-radius: 50%;
-  border: 1px solid orange;
-}
-
-.name {
-  color: orange;
-  padding: 10px 0px;
-  text-transform: uppercase;
-  font-size: 20px;
-} */
