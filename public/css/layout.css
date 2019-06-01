@@ -45,6 +45,16 @@ h1 {
   color: white;
   padding: 20px 0px;
 }
+#hiddenForm {
+  background: rgb(10, 10, 10);
+  opacity: .9;
+  line-height: 2;
+  width: 400px;
+  margin: 0px auto;
+  text-align: center;
+  color: white;
+  padding: 20px 0px;
+}
 .join-container {
   margin: 0 auto;
   text-align: center;
