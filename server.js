@@ -115,11 +115,11 @@ function allowIn(request, response) {
   // // console.log('HELLOOOOOOOOOOOOOOOOOOOOOOOOOO', myquery);
 
   let checkForUser = 'SELECT * FROM users WHERE username = $1;';
-  
+
   let value = [username];
 
   client.query(checkForUser, value)
-    
+
     .then(results => {
       console.log(results);
       // let myQuery = client.query('SELECT * FROM metrics;')
@@ -330,12 +330,12 @@ function saveMealPlanToDB(request, response) {
   return client.query(SQL, values)
     .then(() => {
       const SQL = 'SELECT * FROM meals';
-      
+
       return client.query(SQL)
         .then(result => {
-          console.log('😃🌅 result'             , result.rows);
+          console.log('😃🌅 result' , result.rows);
           let data = result.rows;
-          
+
           response.render('pages/saved-menus', {result: data , plansSaved: result.rowCount, user_id: request.params.user_id})
         })
         .catch(error => handleError(error, response));
@@ -359,12 +359,12 @@ function showSavedMeals(request, response) {
 
   return client.query(SQL)
     .then(result => {
-      console.log('😃🌅 result'             , result.rows);
+      console.log('😃🌅 result' , result.rows);
       let data = result.rows;
-    
+
       response.render('pages/saved-menus', {result: data , plansSaved: result.rowCount, user_id: request.params.user_id})
     })
-  
+
     .catch(handleError);
 }
 
