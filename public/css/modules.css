@@ -75,6 +75,8 @@
   margin-bottom: 50px;
   text-align: center;
   font-size: 18px;
+  line-height: 1.5;
+  padding: 0 30px;
 }
 
 #h1-selected {
@@ -125,18 +127,13 @@
 .meals img {
   border-top-right-radius: 8px;
   border-bottom-left-radius: 8px;
-  /* object-fit: contain; */
+  object-fit: cover;
   width: 250px;
   height: 250px;
   background: #222222;
   margin-bottom: 10px;
   margin-top: 10px;
 }
-
-/* .ingredient {
-  object-fit: contain;
-  height: 25px;
-} */
 
 #intake-button {
   margin: 20px 0px;
@@ -150,29 +147,3 @@
   position: absolute;
 }
 
-/* .team {
-  padding: 20px 10px;
-  width: 300px;
-  text-align: center;
-  margin: 30px 0px;
-  height: 400px;
-  line-height: 1;
-  background-color: rgb(0, 0, 0);
-  opacity: .8;
-  color: white;
-  align-items: center;
-  border-radius: 10px;
-  box-shadow: 1px 1px 2px orange;
-}
-
-.team img {
-  border-radius: 50%;
-  border: 1px solid orange;
-}
-
-.name {
-  color: orange;
-  padding: 10px 0px;
-  text-transform: uppercase;
-  font-size: 20px;
-} */

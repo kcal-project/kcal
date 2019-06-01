@@ -13,7 +13,7 @@
 
           <p>You will reach your goal weight around
             <p class="diet-values"><b><%= projDate %></b></p>
-
+            <br>
             We have generated your meal plan for the day according to your current body metrics and diet plan. Every 7 days update your
             new weight to adjust your meal plan, and feel free to change your diet plan to slow or fast-track your results.
           </p>
@@ -87,16 +87,16 @@
           <% nutrients  %>
             <div id="combined">
               <li class="">Combined Meal Calories:
-                <p class="diet-values"><b><%= nutrients.calories %></b></p>
+                <p class="diet-values"><b><%= nutrients.calories %>g</b></p>
               </li>
               <li class="">Combined Meal Protein:
-                <p class="diet-values"><b><%= nutrients.protein %></b></p>
+                <p class="diet-values"><b><%= nutrients.protein %>g</b></p>
               </li>
               <li class="">Combined Meal Fat:
-                <p class="diet-values"><b><%= nutrients.fat %></b></p>
+                <p class="diet-values"><b><%= nutrients.fat %>g</b></p>
               </li>
               <li class="">Combined Meal carbohydrates:
-                <p class="diet-values"><b><%= nutrients.carbohydrates %></b></p>
+                <p class="diet-values"><b><%= nutrients.carbohydrates %>g</b></p>
               </li>
             </div>
         </div>
@@ -118,7 +118,6 @@
               </div>
               <% }); %>
 
-
                 <!-- <div class="ingredients">
     
       <% ingredients.forEach(ingr => { %>
@@ -129,9 +128,7 @@
         <% }); %>  -->
           </ul>
 
-          <!-- <section>
-      
-
+      <!-- <section>
       <form  action="/saved-menus/<%= user_id %>" method="post" id="" class="save">
         
         <% nutrients  %>
@@ -151,11 +148,11 @@
           <input type="hidden" name="unit" value="<%= ingr.unit %>">
         <% }); %> 
 
-        <button class="btn btn-primary loginButton" type="submit" id="" >Save Plan</button>
       </form>
-
     </section> -->
-
+      <div id="dashboard-save-button">
+        <button class="btn btn-primary loginButton" type="submit">Save Plan</button>
+      </div>
 
       </main>
       <%- include('../layouts/footer') %>

@@ -91,3 +91,9 @@ h1 {
 #dashboard-form {
   margin-bottom: 40px;
 }
+
+#dashboard-save-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}

@@ -22,8 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
 app.use(methodOverride(function (request) {
-  // console.log(request.body);
-  // console.log('😎😎😎😎😎 inside method override');
   if (request.body && typeof request.body === 'object' && '_method' in request.body) {
     let method = request.body._method;
     delete request.body._method;
@@ -34,8 +32,6 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.get('/', createJoke);
-// app.get('/', getMealsFromDB);
-// app.get('/', formIntake);
 app.get('/about', aboutUs);
 
 app.get('/', getLogIn);
@@ -51,22 +47,12 @@ app.delete('/delete/:user_id', deleteMeal);
 
 app.get('*', (req, res) => res.status(404).send('This route does not exist'));
 
-
-
 app.post('/saved-menus/:user_id',saveMealPlanToDB);
-// app.post('/saved-menus',showSavedMeals);
-
-
-
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`        😀    🥶      🤬                                       Listening on port: ${PORT}         🤯           🌕         🌈         💦              ✊`));
 
-//Login content! ////////////////////////////////////////////////////////////
-
 function addUser(request, response) {
-  // console.log('🤨', request.body);
-
   let {firstname, lastname, username } = request.body;
 
   firstname = firstname.toLowerCase();
@@ -81,7 +67,7 @@ function addUser(request, response) {
     .then(results => {
       if(results.rows.length > 0) {
         response.render('pages/join');
-        // console.log('this username exist!!!')
+
       } else {
         let SQL = 'INSERT INTO users (firstname, lastname, username) VALUES ($1, $2, $3);';
         let values = [firstname, lastname, username];
@@ -106,7 +92,6 @@ function getLogIn(request, response) {
 }
 
 function allowIn(request, response) {
-  // console.log(process.env.DATABASE_URL);
   let {username} = request.body;
 
   let checkForUser = 'SELECT * FROM users WHERE username = $1;';
@@ -134,8 +119,6 @@ function handleError(error, response) {
   console.log(error);
   response.render('pages/error', { error: error });
 }
-
-
 
 function aboutUs(request, response) {
   response.render('pages/about');
@@ -214,13 +197,8 @@ function goalDate(request){
   }
 }
 
-
-
 function searchRecipe(data){
-  // console.log('line 123 ######################################### data', data.idArray);
-
   let id = data.idArray;
-
 
   for (let i = 0; i <= id.length; i++){
 
@@ -232,18 +210,12 @@ function searchRecipe(data){
 
         let ingredients = apiResponse.body.ingredients.map(recResult => new Recipe(recResult));
 
-        // console.log('line 134 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',ingredients, data);
         return [ingredients, data];
       })
-
   }
-
 }
 
-
 let searchNewMeals = function(request, response) {
-  // console.log('🤨line 232 ****************************************', request.body);
-
   let metrics = request.body
   let calories = getBmr(request, response);
   let projDate = goalDate(request, response);
@@ -256,7 +228,6 @@ let searchNewMeals = function(request, response) {
     .then(apiResponse => {
       let data = {};
       data.meals = apiResponse.body.meals.map(mealResult => new Meal(mealResult));
-      // console.log('meals$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', data.meals);
       data.nutrients = apiResponse.body.nutrients;
       data.idArray = data.meals.map((meal)=> meal.id);
       return data;
@@ -265,13 +236,11 @@ let searchNewMeals = function(request, response) {
     .then(result=> searchRecipe(result)
     )
     .then (result => {
-      // console.log('line 161 result[0]', result[0]);
 
       let userObj= result[1];
       userObj.ingredients= result[0];
       return userObj;
     })
-
 
     .then(result => {
       // console.log('****************************************',result);
@@ -283,12 +252,7 @@ let searchNewMeals = function(request, response) {
     .catch(err => handleError(err));
 }
 
-
-
 function saveMetricsToDB(request, response) {
-
-
-  // console.log('request.body line 255 ********', request.body);
   let { age, height, sex, weight, getActivity, goal, loss} = request.body;
 
   let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss) VALUES ($1, $2, $3, $4, $5, $6, $7);';
@@ -299,9 +263,6 @@ function saveMetricsToDB(request, response) {
     .then(searchNewMeals(request, response))
 
     .catch(err => handleError(err, response))
-
-
-
 }
 
 
@@ -315,12 +276,12 @@ function saveMealPlanToDB(request, response) {
   return client.query(SQL, values)
     .then(() => {
       const SQL = 'SELECT * FROM meals';
-      
+
       return client.query(SQL)
         .then(result => {
-          console.log('😃🌅 result'             , result.rows);
+          console.log('😃🌅 result' , result.rows);
           let data = result.rows;
-          
+
           response.render('pages/saved-menus', {result: data , plansSaved: result.rowCount, user_id: request.params.user_id})
         })
         .catch(error => handleError(error, response));
@@ -344,12 +305,12 @@ function showSavedMeals(request, response) {
 
   return client.query(SQL)
     .then(result => {
-      console.log('😃🌅 result'             , result.rows);
+      console.log('😃🌅 result' , result.rows);
       let data = result.rows;
-    
+
       response.render('pages/saved-menus', {result: data , plansSaved: result.rowCount, user_id: request.params.user_id})
     })
-  
+
     .catch(handleError);
 }
 
@@ -398,7 +359,6 @@ function handleError(error, response) {
   console.log('response', response);
   response.render('pages/error', { error: error });
 }
-
 
 // random food jokes
 function createJoke(request, response) {
