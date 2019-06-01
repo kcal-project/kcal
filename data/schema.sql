@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS metrics;
 DROP TABLE IF EXISTS meals;
-DROP TABLE IF EXISTS recipes;
+
 
 
 
@@ -11,6 +11,8 @@ CREATE TABLE users (
   "lastname" VARCHAR(50),
   username VARCHAR(50) UNIQUE
 );
+
+
 
 CREATE TABLE metrics (
   id SERIAL PRIMARY KEY,
@@ -25,16 +27,30 @@ CREATE TABLE metrics (
   UNIQUE(users_id)
 );
 
-
--- CREATE TABLE meals (
---   id SERIAL PRIMARY KEY,
---   daily_caloric_goal VARCHAR(255),
---   meal_title VARCHAR(255),
---   ready_in VARCHAR(255),
---   serving_size VARCHAR(255),
---   meal_image VARCHAR(255),
---   nutrients VARCHAR(255),
---   FOREIGN KEY (user_id) REFERENCES users (id)
+--   loss VARCHAR(255)
+--   -- users_id INTEGER NOT NULL,
+--   -- FOREIGN KEY (users_id) REFERENCES users (id)
 -- );
 
+CREATE TABLE meals (
+  id SERIAL PRIMARY KEY,
+  calories VARCHAR(255),
+  protein VARCHAR(255),
+  fat VARCHAR(255),
+  carbohydrates VARCHAR(255),
+  image VARCHAR(800),
+  title VARCHAR(255),
+  readyInMinutes VARCHAR(255),
+  name VARCHAR(255),
+  value VARCHAR(255),
+  unit VARCHAR(255),
+  users_id INTEGER REFERENCES users (id),
+  UNIQUE(users_id)
+);
+
 SELECT * FROM metrics JOIN users ON metrics.users_id = users.id;
+SELECT * FROM meals JOIN users on meals.users_id = users.id;
+
+
+
+

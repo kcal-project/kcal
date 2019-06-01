@@ -1,5 +1,7 @@
 body {
-  margin: 0 auto;
+  /* margin: 0 auto; */
+  margin-top: 100px;
+  margin-bottom: 100px;
   height: 100%;
   width: 100%;
   display: table;
@@ -15,10 +17,10 @@ header {
   z-index: 2;
 }
 
-body {
+/* body {
   margin-top: 100px;
   margin-bottom: 100px;
-}
+} */
 
 nav li a:hover:not(.active) {
   background-color: rgb(97, 97, 97);
@@ -28,12 +30,12 @@ nav .active {
   background-color: rgb(255, 166, 0);
 }
 
-h1 {
+/* h1 {
   text-align: center;
   color: white;
-}
+} */
 
-.info-banner {
+/* .info-banner {
   margin: 0 auto;
   text-align: center;
   text-transform: uppercase;
@@ -51,22 +53,22 @@ h1 {
   font-size: 50px;
   color: white;
   text-shadow: 2px 2px 4px black;
-}
+} */
 
-.login-container {
+/* .login-container {
   margin: 0 auto;
   text-align: center;
   color: rgb(255, 166, 0);
   margin-top: 25px;
-}
+} */
 
-#create-account-container {
+/* #create-account-container {
   width: 400px;
   background-color: #000000;
   opacity: .7;
   padding: 5px 0px 50px 0px;
   margin: 0 auto;
-}
+} */
 
 a {
   color: white;
@@ -78,14 +80,14 @@ a:hover {
   color: rgb(255, 166, 0);
 }
 
-#joke {
+/* #joke {
   margin: 0 auto;
   text-align: center;
   text-transform: uppercase;
   font-size: 40px;
   padding: 20px 10px;
   color: white;
-}
+} */
 
 em {
   text-transform: uppercase;
@@ -102,7 +104,7 @@ em {
   color: orange;
 }
 
-.account-input {
+/* .account-input {
   margin: 0 auto;
   background-color: lightgrey;
   width: 250px;
@@ -110,15 +112,15 @@ em {
   border: none;
   font-size: 15px;
   margin-bottom: 20px;
-}
+} */
 
-#male {
+/* #male {
   margin-right: 7px;
 }
 
 #activity , #weight-loss-speed {
   margin-top: 10px;
-}
+} */
 
 button {
   margin: 0 auto;
@@ -129,6 +131,8 @@ button {
   text-transform: uppercase;
   font-size: 15px;
   border: none;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 button:hover {
@@ -141,7 +145,7 @@ main {
   width: 100%;
 }
 
-.meals {
+/* .meals {
   width: 400px;
   background: #222222;
   opacity: .9;
@@ -164,7 +168,7 @@ main {
   height: 250px;
   background: #222222;
   margin-bottom: 10px;
-}
+} */
 
 footer {
   position: fixed;
@@ -178,7 +182,7 @@ footer {
   padding: 5px 0px;
 }
 
-#intake-form {
+/* #intake-form {
   background: rgb(10, 10, 10);
   opacity: .9;
   line-height: 2;
@@ -199,14 +203,14 @@ footer {
 
 #stats label {
   position: absolute;
-}
+} */
 
-.join-container {
+/* .join-container {
   margin: 0 auto;
   text-align: center;
   color: white;
   width: 400px;
-}
+} */
 
 #mail {
   color: white;
@@ -214,9 +218,10 @@ footer {
   padding-top: 10px;
 }
 
-.team img {
-  border-radius: 50%;
-  border: 1px solid orange;
+/* #about-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 .team {
@@ -234,10 +239,9 @@ footer {
   box-shadow: 1px 1px 2px orange;
 }
 
-#about-wrapper {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+.team img {
+  border-radius: 50%;
+  border: 1px solid orange;
 }
 
 .name {
@@ -245,7 +249,7 @@ footer {
   padding: 10px 0px;
   text-transform: uppercase;
   font-size: 20px;
-}
+} */
 
 /* Style the navigation menu */
 .topnav {
@@ -335,7 +339,7 @@ footer {
 }
 
 #dashboard-page {
-  background-image: url("../images/clouds.jpeg"); no-repeat center fixed; opacity .8;
+  background-image: url("../images/disco2.jpg"); no-repeat center fixed; opacity .8;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

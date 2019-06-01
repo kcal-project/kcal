@@ -18,10 +18,94 @@ As user, I need a way to actively monitor my weight loss progress, to continuous
 
 Problem Domain Resultions: 
 
+As a developer, I want to provide the user a persoanlized experience.
+As a developer, the user should be able to use real body metrics to formulate a meal plan to achieve thier weight loss goal.
+As a developer, The user should be able to update their weight loss, and have a diet plan recalculate what the diet should be for user weight loss goals..
+
+Version: 2.1 = The best product we could accomplish within the timeframe. For a small investment of $100,000,000 we could make this app know your diet before you know you need it. Go team Kcal!
+
+
+Libraries Used:
+  
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "ejs": "^2.6.1",
+    "express": "^4.17.0",
+    "method": "^2.0.0",
+    "method-override": "^3.0.0",
+    "nodemon": "^1.19.1",
+    "override": "0.0.1",
+    "pg": "^7.11.0",
+    "superagent": "^5.0.5",
+    "unirest": "^0.6.0"
+
+  Current Libraries Used
+
+
+
+User Reqs:
+ 1) type <a>kcalworks.com</a> into your browser
+ 2) If that is not compatible with the device you are using, try <a>https://kcalworks.herokuapp.com/</a>
+3) If all else fails, set port to 3000, update psql to psql -f data/schema.sql -d kcal, and go sick with your diet!
+
+End Points:
+  // Routes
+app.get('/', createJoke);
+app.get('/about', aboutUs);
+app.get('/', getLogIn);
+app.get('/join', showForm);
+app.post('/join', addUser);
+app.post('/', allowIn);
+app.post('/my-dashboard/:user_id', saveMetricsToDB);
+app.put('/my-dashboard/:user_id', updateMetrics);
+app.get('*', (req, res) => res.status(404).send('This route does not exist'));
+app.post('/saved-menus/:user_id',saveMealPlanToDB);
+
+Data Base Schema:
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  "firstname" VARCHAR(255),
+  "lastname" VARCHAR(50),
+  username VARCHAR(50) UNIQUE
+);
+
+
+CREATE TABLE metrics (
+  id SERIAL PRIMARY KEY,
+  age VARCHAR(255),
+  height VARCHAR(255),
+  sex VARCHAR(255),
+  weight VARCHAR(255),
+  getActivity VARCHAR(255),
+  goal VARCHAR(255),
+  loss VARCHAR(255)
+  -- FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+CREATE TABLE meals (
+  id SERIAL PRIMARY KEY,
+  calories VARCHAR(255),
+  protein VARCHAR(255),
+  fat VARCHAR(255),
+  carbohydrates VARCHAR(255),
+  image VARCHAR(255),
+  title VARCHAR(255),
+  readyInMinutes VARCHAR(255),
+  name VARCHAR(255),
+  value VARCHAR(255),
+  unit VARCHAR(255)
+  -- FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+
+
+
+
 
 Wireframe: 
 
-<img src="images/new-data-services-746313-unsplash.jpg">
+<img src="/images/new-data-services-746313-unsplash.jpg">
 
 
 Conflict Plan
