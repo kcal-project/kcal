@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../layouts/head') %>
+  </head>
+
+
+  <body id="login-page">
+      <header>
+          <div class="topnav">
+              <a href="/" class="active">KCAL</a>
+              <div id="myLinks">
+                <a href="/about">About</a>
+              </div>
+              <a href="javascript:void(0);" class="icon" onclick="renderMenuIcon()">
+                  <i class="fa fa-bars"></i>
+              </a>
+            </div>
+      </header>
+    <!-- <img id="backbackground" src="images/backbackground.jpg"> -->
+
+      <h1 id="joke"><%= joke %></h1>
+      <br>
+      <br>
+      <br>
+
+      <div class="login-contanier">
+        <h1><em>Let's do this thing!</em></h1>
+        <br>
+        <form action="/" method="post" class='form-sign-in'>
+          <input class="account-input" type="text" name="username" class="form-control" placeholder="Email" required autofocus>
+          <button type="submit"> Sign In</button>
+        </form>
+        <div class="join-container">
+          <br>
+          <br>
+          <br>
+          <a id="join-link" href="/join">Join</a>
+        </div>
+      </div>
+      <%- include('../layouts/footer') %>
+  </body>
+
+</html>
