@@ -131,6 +131,8 @@ button {
   text-transform: uppercase;
   font-size: 15px;
   border: none;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 button:hover {
@@ -337,7 +339,7 @@ footer {
 }
 
 #dashboard-page {
-  background-image: url("../images/clouds.jpeg"); no-repeat center fixed; opacity .8;
+  background-image: url("../images/disco2.jpg"); no-repeat center fixed; opacity .8;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
