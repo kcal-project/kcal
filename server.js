@@ -109,12 +109,24 @@ function allowIn(request, response) {
   // console.log(process.env.DATABASE_URL);
   let {username} = request.body;
 
+  // client.query('SELECT * FROM metrics;').then(results => {
+  //   console.log('HELLOOOOOOOOOOOOOOOOOOOOOOOOOO',results.rows[0].users_id);
+  // }).catch(error => handleError(error, response));
+  // // console.log('HELLOOOOOOOOOOOOOOOOOOOOOOOOOO', myquery);
+
   let checkForUser = 'SELECT * FROM users WHERE username = $1;';
+  
   let value = [username];
 
   client.query(checkForUser, value)
+    
     .then(results => {
-      // console.log(results);
+      console.log(results);
+      // let myQuery = client.query('SELECT * FROM metrics;')
+      //   .then(results => {
+      //     console.log(results)
+      //   })
+
       if(results.rowCount !== 0 && results.rows[0].username === username) {
         const user_id = results.rows[0].id;
 
@@ -288,11 +300,14 @@ let searchNewMeals = function(request, response) {
 function saveMetricsToDB(request, response) {
 
 
+  console.log(request.params.user_id);
+
+
   // console.log('request.body line 255 ********', request.body);
   let { age, height, sex, weight, getActivity, goal, loss} = request.body;
 
-  let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss) VALUES ($1, $2, $3, $4, $5, $6, $7);';
-  let values = [age, height, sex, weight, getActivity, goal, loss];
+  let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss, users_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);';
+  let values = [age, height, sex, weight, getActivity, goal, loss, request.params.user_id];
 
   return client.query(SQL, values)
 
@@ -309,8 +324,8 @@ function saveMealPlanToDB(request, response) {
   console.log('line 312😄' , request.body);
   let { calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit } = request.body;
 
-  const SQL = 'INSERT INTO meals (calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);';
-  const values = [calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit];
+  const SQL = 'INSERT INTO meals (calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit, users_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);';
+  const values = [calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit, request.params.user_id];
 
   return client.query(SQL, values)
     .then(() => {
@@ -409,7 +424,6 @@ function createJoke(request, response) {
       // console.log('332😒 apiResponse', apiResponse.body.text);
       let joke = apiResponse.body.text
       response.render('pages/index', {joke: joke})
-
     })
     .catch(err => handleError(err, response))
 }
