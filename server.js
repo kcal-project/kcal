@@ -266,6 +266,7 @@ let searchNewMeals = function(request, response) {
 
 function saveMetricsToDB(request, response) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
@@ -274,6 +275,10 @@ function saveMetricsToDB(request, response) {
 
   // console.log('request.body line 255 ********', request.body);
 >>>>>>> a24fe78f9f5b1705bb1af28849f60b44789cdf3d
+=======
+  console.log(request.params.user_id);
+
+>>>>>>> 9a48df732d7e1e5c768de51dbd64b3b9c3ced162
   let { age, height, sex, weight, getActivity, goal, loss} = request.body;
 
   let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss, users_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);';
