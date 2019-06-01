@@ -72,9 +72,14 @@
         <input type = "radio" name ="loss" id = "moderate" value = "moderate" required/>
         <label for = "extreme">Extreme</label>
         <input type = "radio" name ="loss" id = "extreme" value = "extreme" required/>
+
+        <p></p>
+        
+
         </div>
         
   
+
         <button class = "updateBtn" type = "submit" id = "button1"> Update Plan</button>
           
       </form>
@@ -122,25 +127,28 @@
       <form  action="/saved-menus/<%= user_id %>" method="post" id="" class="save">
         
         <% nutrients  %>
-          <input type="text" value="<%= nutrients.calories %>">
-          <input type="text" value="<%= nutrients.protein %>">
-          <input type="text" value="<%= nutrients.fat %>">
-          <input type="text" value="<%= nutrients.carbohydrates %>">   
+          <input type="hidden" name="calories" value="<%= nutrients.calories %>">
+          <input type="hidden"  name="protein" value="<%= nutrients.protein %>">
+          <input type="hidden" name="fat"  value="<%= nutrients.fat %>">
+          <input type="hidden" name="carbohydrates" value="<%= nutrients.carbohydrates %>">   
         <%  %>
         <% meals.forEach(meal => { %>
-          <input type="text" value="<%= meal.image %>">
-          <input type="text" value="<%= meal.title %>">
-          <input type="text" value="<%= meal.readyInMinutes %>">
+          <input type="hidden" name="image" value="<%= meal.image %>">
+          <input type="hidden" name="title" value="<%= meal.title %>">
+          <input type="hidden" name="readyInMinutes" value="<%= meal.readyInMinutes %>">
         <% }); %>
         <% ingredients.forEach(ingr => { %>
-          <input type="text" value="<%= ingr.name %>">
-          <input type="text" value="<%= ingr.value %>">
-          <input type="text" value="<%= ingr.unit %>">
+          <input type="hidden" name="name" value="<%= ingr.name %>">
+          <input type="hidden" name="value" value="<%= ingr.value %>">
+          <input type="hidden" name="unit" value="<%= ingr.unit %>">
         <% }); %> 
 
-      <button class="btn btn-primary loginButton" type="submit" id="" >Save Plan</button>
+        <button class="btn btn-primary loginButton" type="submit" id="" >Save Plan</button>
       </form>
-    </section> -->
+
+    </section>
+    <p></p>
+    
 
   </main>
   <%- include('../layouts/footer') %>

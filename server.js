@@ -22,8 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
 app.use(methodOverride(function (request) {
-  console.log(request.body);
-  console.log('😎😎😎😎😎 inside method override');
+  // console.log(request.body);
+  // console.log('😎😎😎😎😎 inside method override');
   if (request.body && typeof request.body === 'object' && '_method' in request.body) {
     let method = request.body._method;
     delete request.body._method;
@@ -47,21 +47,20 @@ app.post('/my-dashboard/:user_id', saveMetricsToDB);
 
 app.put('/my-dashboard/:user_id', updateMetrics);
 
+app.delete('/delete/:user_id', deleteMeal);
+
 app.get('*', (req, res) => res.status(404).send('This route does not exist'));
 
 
 
 app.post('/saved-menus/:user_id',saveMealPlanToDB);
+// app.post('/saved-menus',showSavedMeals);
 
-// app.post('/my-dashboard/:user_id', searchNewMeals);
-// app.post('/my-dashboard', searchRecipe);
-
-//app.post('/my-dashboard', searchNewMeals);
 
 
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+app.listen(PORT, () => console.log(`        😀    🥶      🤬                                       Listening on port: ${PORT}         🤯           🌕         🌈         💦              ✊`));
 
 //Login content! ////////////////////////////////////////////////////////////
 
@@ -215,9 +214,7 @@ function goalDate(request){
   }
 }
 
-// function formIntake(request, response) {
-//   response.render('pages/intake-form');
-// }
+
 
 function searchRecipe(data){
   // console.log('line 123 ######################################### data', data.idArray);
@@ -245,7 +242,7 @@ function searchRecipe(data){
 
 
 let searchNewMeals = function(request, response) {
-  console.log('🤨line 232 ****************************************', request.body);
+  // console.log('🤨line 232 ****************************************', request.body);
 
   let metrics = request.body
   let calories = getBmr(request, response);
@@ -277,7 +274,7 @@ let searchNewMeals = function(request, response) {
 
 
     .then(result => {
-      console.log('****************************************',result);
+      // console.log('****************************************',result);
       // userObj = result
       let {meals, nutrients, ingredients} = result;
       // console.log(meals, nutrients, ingredients);
@@ -317,25 +314,53 @@ function saveMealPlanToDB(request, response) {
 
   return client.query(SQL, values)
     .then(() => {
-      const SQL = 'SELECT id FROM meals WHERE title=$1;'
-      const values = [request.body.title];
-      return client.query(SQL, values)
+      const SQL = 'SELECT * FROM meals';
+      
+      return client.query(SQL)
         .then(result => {
-          response.render('pages/saved-menus', {result: result})
+          console.log('😃🌅 result'             , result.rows);
+          let data = result.rows;
+          
+          response.render('pages/saved-menus', {result: data , plansSaved: result.rowCount, user_id: request.params.user_id})
         })
         .catch(error => handleError(error, response));
     })
     .catch(error => handleError(error, response));
+
+}
+
+
+function deleteMeal(request, response) {
+  const SQL = 'DELETE FROM meals WHERE id=$1;';
+  const value = [request.params.user_id];
+  client.query(SQL, value)
+    .then(response.redirect('/saved-menus'))
+    .catch(error => handleError(error, response));
+}
+
+
+function showSavedMeals(request, response) {
+  const SQL = `SELECT * FROM meals`;
+
+  return client.query(SQL)
+    .then(result => {
+      console.log('😃🌅 result'             , result.rows);
+      let data = result.rows;
+    
+      response.render('pages/saved-menus', {result: data , plansSaved: result.rowCount, user_id: request.params.user_id})
+    })
+  
+    .catch(handleError);
 }
 
 
 
 function updateMetrics(request, response) {
-  console.log(request.params.user_id);
+  // console.log(request.params.user_id);
 
   let { age, height, sex, weight, getActivity, goal, loss } = request.body;
-  console.log('Inside  my update function 😎😎😎');
-  console.log(request.body);
+  // console.log('Inside  my update function 😎😎😎');
+  // console.log(request.body);
 
   let SQL = `UPDATE metrics SET age=$1, height=$2, sex=$3, weight=$4, getActivity=$5, goal=$6, loss=$7 WHERE id=$8;`;
 
@@ -381,7 +406,7 @@ function createJoke(request, response) {
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
     .then(apiResponse => {
-      console.log('332😒 apiResponse', apiResponse.body.text);
+      // console.log('332😒 apiResponse', apiResponse.body.text);
       let joke = apiResponse.body.text
       response.render('pages/index', {joke: joke})
 
