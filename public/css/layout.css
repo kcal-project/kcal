@@ -2,12 +2,14 @@ h1 {
   text-align: center;
   color: white;
 }
+
 .login-container {
   margin: 0 auto;
   text-align: center;
   color: rgb(255, 166, 0);
   margin-top: 25px;
 }
+
 #joke {
   margin: 0 auto;
   text-align: center;
@@ -16,6 +18,7 @@ h1 {
   padding: 20px 10px;
   color: white;
 }
+
 .account-input {
   margin: 0 auto;
   background-color: lightgrey;
@@ -25,6 +28,7 @@ h1 {
   font-size: 15px;
   margin-bottom: 20px;
 }
+
 .meals {
   width: 400px;
   background: #222222;
@@ -35,6 +39,7 @@ h1 {
   padding: 10px 10px;
   height: 325px;
 }
+
 #intake-form {
   background: rgb(10, 10, 10);
   opacity: .9;
@@ -45,6 +50,7 @@ h1 {
   color: white;
   padding: 20px 0px;
 }
+
 #hiddenForm {
   background: rgb(10, 10, 10);
   opacity: .9;
@@ -55,17 +61,20 @@ h1 {
   color: white;
   padding: 20px 0px;
 }
+
 .join-container {
   margin: 0 auto;
   text-align: center;
   color: white;
   width: 400px;
 }
+
 #about-wrapper {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
+
 .login-contanier{
   background-color: black;
   opacity: .9;
@@ -77,4 +86,14 @@ h1 {
   color: white;
   padding: 25px 0px 50px 0px;
   margin-bottom: 100px;
+}
+
+#dashboard-form {
+  margin-bottom: 40px;
+}
+
+#dashboard-save-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
 }
