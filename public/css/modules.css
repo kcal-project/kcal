@@ -59,19 +59,73 @@
 #activity , #weight-loss-speed {
   margin-top: 10px;
 }
+#activity {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+#selected {
+  margin: 0 auto;
+  color: white;
+  margin-bottom: 50px;
+  text-align: center;
+  font-size: 18px;
+  
+}
+
+#h1-selected {
+  margin: 0 auto;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-size: 40px;
+  color: white;
+  text-shadow: 2px 2px 4px black;
+}
+#update-button {
+  margin-top: 10px;
+}
+
+#daily-meal {
+  margin: 0 auto;
+  color: white;
+  margin-bottom: 50px;
+  text-align: center;
+  font-size: 18px;
+}
+.diet-values{
+  margin-top: 3px;
+  font-size: 21px;
+  text-shadow: 2px 2px 4px black;
+}
+#combined {
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
 #meals-container {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
-
+.meals {
+  margin-bottom: 17px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
 .meals img {
-  object-fit: contain;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  /* object-fit: contain; */
   width: 250px;
   height: 250px;
   background: #222222;
   margin-bottom: 10px;
+  margin-top: 10px;
+  
 }
+/* .ingredient {
+  object-fit: contain;
+  height: 25px;
+} */
 #intake-button {
   margin: 20px 0px;
 }
