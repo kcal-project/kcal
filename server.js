@@ -100,11 +100,11 @@ function allowIn(request, response) {
   // // console.log('HELLOOOOOOOOOOOOOOOOOOOOOOOOOO', myquery);
 
   let checkForUser = 'SELECT * FROM users WHERE username = $1;';
-  
+
   let value = [username];
 
   client.query(checkForUser, value)
-    
+
     .then(results => {
       console.log(results);
       // let myQuery = client.query('SELECT * FROM metrics;')
