@@ -3,9 +3,7 @@
 require('dotenv').config();
 
 const express = require('express');
-// const cors = require('cors');
-const superagent = require('superagent'); // Not Need?  Still researching
-// const unirest = require('unirest');// https request client library like superagent  -- neede for rapid api
+const superagent = require('superagent');
 const pg = require('pg');
 require('ejs');
 const methodOverride = require('method-override');
@@ -30,7 +28,6 @@ app.use(methodOverride(function (request) {
 }));
 app.set('view engine', 'ejs');
 
-// Routes
 app.get('/', createJoke);
 app.get('/about', aboutUs);
 
@@ -43,22 +40,17 @@ app.post('/my-dashboard/:user_id', saveMetricsToDB);
 
 app.put('/my-dashboard/:user_id', updateMetrics);
 
-app.delete('/delete/:user_id', deleteMeal);
-
-app.get('*', (req, res) => res.status(404).send('This route does not exist'));
-
-app.post('/saved-menus/:user_id',saveMealPlanToDB);
+app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`        😀    🥶      🤬                                       Listening on port: ${PORT}         🤯           🌕         🌈         💦              ✊`));
 
 function addUser(request, response) {
-  let {firstname, lastname, username } = request.body;
+  let {firstname, lastname, username} = request.body;
 
   firstname = firstname.toLowerCase();
   lastname = lastname.toLowerCase();
   username = username.toLowerCase();
-  console.log('This is the user email: ', username);
 
   let userExist = 'SELECT * FROM users WHERE username = $1;';
   let values1 = [username];
@@ -93,43 +85,23 @@ function getLogIn(request, response) {
 
 function allowIn(request, response) {
   let {username} = request.body;
-
-  // client.query('SELECT * FROM metrics;').then(results => {
-  //   console.log('HELLOOOOOOOOOOOOOOOOOOOOOOOOOO',results.rows[0].users_id);
-  // }).catch(error => handleError(error, response));
-  // // console.log('HELLOOOOOOOOOOOOOOOOOOOOOOOOOO', myquery);
-
   let checkForUser = 'SELECT * FROM users WHERE username = $1;';
-
+  
   let value = [username];
 
   client.query(checkForUser, value)
-
+    
     .then(results => {
       console.log(results);
-      // let myQuery = client.query('SELECT * FROM metrics;')
-      //   .then(results => {
-      //     console.log(results)
-      //   })
 
       if(results.rowCount !== 0 && results.rows[0].username === username) {
         const user_id = results.rows[0].id;
-
-        // console.log('This is the user ID !!!!! 🆔🆔🆔🆔🆔🆔🆔 = ', user_id)
-
         response.render('pages/intake-form', {user_id: user_id});
-        // console.log('success 😀')
       } else {
         response.render('pages/join' );
-        // console.log('this route failed 😭😢');
       }
     })
     .catch(error => handleError(error, response))
-}
-
-function handleError(error, response) {
-  console.log(error);
-  response.render('pages/error', { error: error });
 }
 
 function aboutUs(request, response) {
@@ -244,110 +216,39 @@ let searchNewMeals = function(request, response) {
       data.idArray = data.meals.map((meal)=> meal.id);
       return data;
     })
-
     .then(result=> searchRecipe(result)
     )
     .then (result => {
-
       let userObj= result[1];
       userObj.ingredients= result[0];
       return userObj;
     })
-
     .then(result => {
-      // console.log('****************************************',result);
-      // userObj = result
       let {meals, nutrients, ingredients} = result;
-      // console.log(meals, nutrients, ingredients);
       response.render('pages/my-dashboard', {metrics: metrics, meals: meals, nutrients: nutrients, projDate: projDate, plan: plan, ingredients: ingredients, user_id: request.params.user_id})
     })
     .catch(err => handleError(err));
 }
 
 function saveMetricsToDB(request, response) {
-  console.log(request.params.user_id);
-  let { age, height, sex, weight, getActivity, goal, loss} = request.body;
+  let {age, height, sex, weight, getActivity, goal, loss} = request.body;
 
   let SQL = 'INSERT INTO metrics (age, height, sex, weight, getActivity, goal, loss, users_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);';
   let values = [age, height, sex, weight, getActivity, goal, loss, request.params.user_id];
 
   return client.query(SQL, values)
-
     .then(searchNewMeals(request, response))
-
     .catch(err => handleError(err, response))
 }
 
-
-function saveMealPlanToDB(request, response) {
-  console.log('line 312😄' , request.body);
-  let { calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit } = request.body;
-
-  const SQL = 'INSERT INTO meals (calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit, users_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);';
-  const values = [calories, protein, fat, carbohydrates, image, title, readyInMinutes, name, value, unit, request.params.user_id];
-
-  return client.query(SQL, values)
-    .then(() => {
-      const SQL = 'SELECT * FROM meals';
-
-      return client.query(SQL)
-        .then(result => {
-          console.log('😃🌅 result' , result.rows);
-          let data = result.rows;
-
-          response.render('pages/saved-menus', {result: data , plansSaved: result.rowCount, user_id: request.params.user_id})
-        })
-        .catch(error => handleError(error, response));
-    })
-    .catch(error => handleError(error, response));
-
-}
-
-
-function deleteMeal(request, response) {
-  const SQL = 'DELETE FROM meals WHERE id=$1;';
-  const value = [request.params.user_id];
-  client.query(SQL, value)
-    .then(response.redirect('/saved-menus'))
-    .catch(error => handleError(error, response));
-}
-
-
-function showSavedMeals(request, response) {
-  const SQL = `SELECT * FROM meals`;
-
-  return client.query(SQL)
-    .then(result => {
-      console.log('😃🌅 result' , result.rows);
-      let data = result.rows;
-
-      response.render('pages/saved-menus', {result: data , plansSaved: result.rowCount, user_id: request.params.user_id})
-    })
-
-    .catch(handleError);
-}
-
-
-
 function updateMetrics(request, response) {
-  // console.log(request.params.user_id);
-
-  let { age, height, sex, weight, getActivity, goal, loss } = request.body;
-  // console.log('Inside  my update function 😎😎😎');
-  // console.log(request.body);
-
+  let {age, height, sex, weight, getActivity, goal, loss} = request.body;
   let SQL = `UPDATE metrics SET age=$1, height=$2, sex=$3, weight=$4, getActivity=$5, goal=$6, loss=$7 WHERE id=$8;`;
-
   let updates = [age, height, sex, weight, getActivity, goal, loss, request.params.user_id];
-
   client.query(SQL, updates)
     .then(searchNewMeals(request, response))
     .catch(err => handleError(err, response));
-
-
 }
-
-
 
 function Recipe(newRec){
 
@@ -355,7 +256,6 @@ function Recipe(newRec){
   this.value = newRec.amount.us.value;
   this.unit = newRec.amount.us.unit;
 }
-
 
 function Meal(newMeal) {
   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
@@ -366,20 +266,17 @@ function Meal(newMeal) {
   this.image = `https://spoonacular.com/recipeImages/${newMeal.image}` ? `https://spoonacular.com/recipeImages/${newMeal.image}` : placeholderImage;
 }
 
-
 function handleError(error, response) {
   console.log(error);
   console.log('response', response);
   response.render('pages/error', { error: error });
 }
 
-// random food jokes
 function createJoke(request, response) {
   superagent.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/jokes/random')
     .set('X-RapidAPI-Host', 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com')
     .set('X-RapidAPI-Key', `${process.env.X_RAPID_API_KEY}`)
     .then(apiResponse => {
-      // console.log('332😒 apiResponse', apiResponse.body.text);
       let joke = apiResponse.body.text
       response.render('pages/index', {joke: joke})
     })
