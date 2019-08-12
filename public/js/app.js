@@ -8,7 +8,7 @@ $(document).ready(function () {
   });
 });
 
-//is used in header//
+// used in header partial//
 function renderMenuIcon() {
   let x = document.getElementById('myLinks');
   if (x.style.display === 'block') {
